@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCNP CLCOR 350-801 — Full Study Plan · 30 May 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080f;--s1:#0b1120;--s2:#101a2c;--s3:#162035;
+  --border:#1c2e44;--border2:#253a58;
+  --blue:#0ea5e9;--teal:#22d3ee;--green:#34d399;
+  --amber:#fbbf24;--red:#f87171;--violet:#a78bfa;--orange:#fb923c;
+  --text:#dde6f0;--dim:#7a95b5;--muted:#3a5070;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--display:'Syne',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:252px;flex-shrink:0;background:var(–s1);border-right:1px solid var(–border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:50;display:flex;flex-direction:column}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(–border2);border-radius:2px}
+
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(–border)}
+.sb-tag{font-family:var(–mono);font-size:9px;color:var(–blue);letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px}
+.sb-title{font-family:var(–display);font-size:17px;font-weight:800;color:#fff;line-height:1.2}
+.sb-title span{color:var(–teal)}
+
+.sb-countdown{margin:14px 16px 0;background:linear-gradient(135deg,rgba(14,165,233,.13),rgba(34,211,238,.06));border:1px solid rgba(14,165,233,.25);border-radius:8px;padding:12px;text-align:center}
+.cd-num{font-family:var(–display);font-size:38px;font-weight:800;color:var(–teal);line-height:1}
+.cd-lbl{font-family:var(–mono);font-size:9px;color:var(–dim);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+
+.sb-exam{margin:10px 16px 14px;background:rgba(251,191,36,.09);border:1px solid rgba(251,191,36,.28);border-radius:5px;padding:7px 10px;font-family:var(–mono);font-size:10px;color:var(–amber);text-align:center;letter-spacing:.04em}
+
+.sb-prog{padding:0 16px 14px;border-bottom:1px solid var(–border)}
+.sb-prog-head{display:flex;justify-content:space-between;font-family:var(–mono);font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.sb-track{height:4px;background:var(–border);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.sb-fill{height:100%;background:linear-gradient(90deg,var(–blue),var(–teal));border-radius:2px;transition:width .5s ease}
+.sb-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.sb-stat{background:var(–s2);border:1px solid var(–border);border-radius:5px;padding:7px;text-align:center}
+.sb-stat-v{font-family:var(–mono);font-size:15px;color:var(–teal);line-height:1}
+.sb-stat-l{font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+
+/* Week nav */
+.wn{padding:10px 0 20px;flex:1}
+.wn-ph{padding:8px 18px 3px;font-family:var(–mono);font-size:8px;color:var(–muted);text-transform:uppercase;letter-spacing:.12em}
+.wn-item{display:flex;align-items:center;gap:8px;padding:6px 18px;cursor:pointer;border-left:2px solid transparent;font-size:11px;color:var(–dim);transition:all .15s;position:relative}
+.wn-item:hover{background:var(–s2);color:var(–text)}
+.wn-item.wna{background:rgba(14,165,233,.07);border-left-color:var(–blue);color:var(–text)}
+.wn-dot{width:6px;height:6px;border-radius:50%;background:var(–muted);flex-shrink:0;transition:background .15s}
+.wn-item.wna .wn-dot{background:var(–blue)}
+.wn-item.ph2 .wn-dot{background:var(–teal)}
+.wn-item.ph3 .wn-dot{background:var(–violet)}
+.wn-item.ph4 .wn-dot{background:var(–amber)}
+.wn-pct{margin-left:auto;font-family:var(–mono);font-size:9px;color:var(–muted)}
+.wn-item.wna .wn-pct{color:var(–blue)}
+
+/* ── MAIN ── */
+.main{margin-left:252px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+/* Topbar */
+.topbar{background:var(–s1);border-bottom:1px solid var(–border);padding:14px 28px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:40}
+.tb-title{font-family:var(–display);font-size:19px;font-weight:700;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title span{color:var(–teal)}
+.tb-nav{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.tb-nav-btn{background:var(–s2);border:1px solid var(–border);border-radius:6px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(–dim);font-size:14px;transition:all .15s;user-select:none}
+.tb-nav-btn:hover{border-color:var(–blue);color:var(–blue)}
+.tb-nav-btn:disabled{opacity:.3;cursor:default}
+.tb-wnum{font-family:var(–mono);font-size:11px;color:var(–text);min-width:52px;text-align:center}
+.tb-badge{font-family:var(–mono);font-size:10px;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
+.b-bl{background:rgba(14,165,233,.14);color:var(–blue);border:1px solid rgba(14,165,233,.2)}
+.b-gn{background:rgba(52,211,153,.11);color:var(–green);border:1px solid rgba(52,211,153,.2)}
+.b-am{background:rgba(251,191,36,.11);color:var(–amber);border:1px solid rgba(251,191,36,.2)}
+.b-vt{background:rgba(167,139,250,.11);color:var(–violet);border:1px solid rgba(167,139,250,.2)}
+
+/* Content */
+.content{padding:24px 28px 80px;flex:1}
+
+/* Phase banner */
+.phase-banner{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:14px 18px;background:var(–s1);border:1px solid var(–border);border-radius:8px;animation:fadeUp .35s ease both}
+.pb-color{width:4px;height:44px;border-radius:2px;flex-shrink:0}
+.pb-sub{font-family:var(–mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.pb-title{font-family:var(–display);font-size:16px;font-weight:700;color:#fff}
+.pb-desc{font-size:11px;color:var(–dim);margin-top:2px;line-height:1.4}
+.pb-right{margin-left:auto;text-align:right;flex-shrink:0}
+.pb-domain{font-family:var(–mono);font-size:9px;color:var(–dim);text-align:right;line-height:1.7}
+
+/* Domain bar */
+.dom-bar{display:flex;gap:2px;height:5px;border-radius:3px;overflow:hidden;margin-bottom:22px;animation:fadeUp .35s ease .05s both}
+.dom-seg{height:100%;opacity:.22;transition:opacity .2s}
+.dom-seg.on{opacity:1}
+
+/* Week stats row */
+.wk-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:22px;animation:fadeUp .35s ease .08s both}
+.wk-stat{background:var(–s1);border:1px solid var(–border);border-radius:7px;padding:12px 10px;text-align:center}
+.wk-stat-v{font-family:var(–mono);font-size:18px;color:var(–teal);line-height:1}
+.wk-stat-l{font-size:9px;color:var(–dim);text-transform:uppercase;letter-spacing:.07em;margin-top:3px}
+
+/* Day grid - 7 columns */
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px;animation:fadeUp .35s ease .12s both}
+
+/* Day card */
+.dc{background:var(–s1);border:1px solid var(–border);border-radius:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s;cursor:pointer;min-height:160px;display:flex;flex-direction:column}
+.dc:hover:not(.dc-rest){border-color:var(–border2)}
+.dc.dc-open{border-color:var(–blue);box-shadow:0 0 0 1px rgba(14,165,233,.18),0 4px 24px rgba(14,165,233,.07)}
+.dc.dc-done{border-color:rgba(52,211,153,.3)}
+.dc.dc-rest{background:rgba(52,211,153,.03);border-color:rgba(52,211,153,.13);cursor:default;opacity:.8}
+.dc.dc-exam{background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.4);box-shadow:0 0 20px rgba(251,191,36,.07)}
+.dc.dc-today{border-color:rgba(14,165,233,.5);box-shadow:0 0 0 1px rgba(14,165,233,.25)}
+
+.dc-head{padding:9px 10px 7px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.dc-dow{font-family:var(–mono);font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:.08em}
+.dc.dc-rest .dc-dow{color:var(–green)}
+.dc.dc-open .dc-dow{color:var(–blue)}
+.dc.dc-today .dc-dow::after{content:’ ·TODAY’;color:var(–blue)}
+.dc-circle{width:15px;height:15px;border-radius:50%;border:1.5px solid var(–muted);display:flex;align-items:center;justify-content:center;font-size:8px;color:transparent;flex-shrink:0;transition:all .15s}
+.dc.dc-done .dc-circle{background:var(–green);border-color:var(–green);color:var(–bg)}
+
+.dc-body{padding:9px 10px 10px;flex:1;display:flex;flex-direction:column;gap:5px}
+.dc-topic{font-size:10.5px;font-weight:500;color:var(–text);line-height:1.35}
+.dc.dc-rest .dc-topic{color:var(–green);font-size:11px}
+.dc-hrs{font-family:var(–mono);font-size:8px;color:var(–muted);margin-top:1px}
+.dc-mini{display:flex;flex-direction:column;gap:3px;margin-top:6px;flex:1}
+.dc-mi{display:flex;align-items:flex-start;gap:4px;font-size:9px;color:var(–dim);cursor:pointer;line-height:1.3}
+.dc-mb{width:9px;height:9px;border:1px solid var(–muted);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:6px;color:transparent;margin-top:1px;transition:all .1s}
+.dc-mi.done .dc-mb{background:var(–green);border-color:var(–green);color:var(–bg)}
+.dc-mi.done .dc-mt{text-decoration:line-through;text-decoration-color:var(–muted);color:var(–muted)}
+.dc-prog{height:2px;background:var(–border);border-radius:1px;margin-top:auto;overflow:hidden}
+.dc-prog-f{height:100%;background:linear-gradient(90deg,var(–blue),var(–teal));border-radius:1px;transition:width .3s}
+
+/* Expand panel */
+.ep{display:none;background:var(–s2);border:1px solid var(–border2);border-radius:10px;padding:22px;margin-bottom:20px;animation:fadeUp .22s ease both}
+.ep.open{display:block}
+.ep-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.ep-htxt{flex:1}
+.ep-title{font-family:var(–display);font-size:17px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:6px}
+.ep-meta{display:flex;flex-wrap:wrap;gap:6px}
+.ep-x{background:var(–s3);border:1px solid var(–border);border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(–dim);font-size:14px;flex-shrink:0;transition:all .15s}
+.ep-x:hover{border-color:var(–red);color:var(–red)}
+
+.ep-sessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:14px}
+.ep-sess{background:var(–s3);border:1px solid var(–border);border-radius:8px;padding:13px}
+.ep-sh{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.ep-si{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.si-study{background:rgba(14,165,233,.15)}
+.si-lab{background:rgba(52,211,153,.12)}
+.si-review{background:rgba(251,191,36,.12)}
+.si-mock{background:rgba(167,139,250,.14)}
+.ep-sname{font-size:11px;font-weight:600;color:var(–text);flex:1}
+.ep-sdur{font-family:var(–mono);font-size:9px;color:var(–dim)}
+
+.ep-tasks{list-style:none;display:flex;flex-direction:column;gap:5px}
+.ep-t{display:flex;align-items:flex-start;gap:7px;cursor:pointer;font-size:11.5px;color:var(–dim);line-height:1.4;transition:color .1s}
+.ep-t:hover{color:var(–text)}
+.ep-tb{width:13px;height:13px;border:1.5px solid var(–muted);border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:7px;color:transparent;transition:all .12s}
+.ep-t.done .ep-tb{background:var(–green);border-color:var(–green);color:var(–bg)}
+.ep-t.done .ep-txt{text-decoration:line-through;text-decoration-color:var(–muted);color:var(–muted)}
+.ep-tags{display:flex;gap:3px;margin-top:2px;flex-wrap:wrap}
+.etag{font-family:var(–mono);font-size:7px;padding:1px 5px;border-radius:2px;text-transform:uppercase;letter-spacing:.07em}
+.etag-cisco{background:rgba(14,165,233,.12);color:var(–blue)}
+.etag-lab{background:rgba(52,211,153,.1);color:var(–green)}
+.etag-review{background:rgba(251,191,36,.1);color:var(–amber)}
+.etag-aws{background:rgba(251,146,60,.12);color:var(–orange)}
+.etag-devnet{background:rgba(167,139,250,.12);color:var(–violet)}
+.etag-mock{background:rgba(167,139,250,.15);color:var(–violet)}
+
+.ep-res{border-top:1px solid var(–border);padding-top:12px;margin-top:12px}
+.ep-rl{font-family:var(–mono);font-size:8px;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.ep-rg{display:flex;flex-wrap:wrap;gap:5px}
+.ep-ri{font-size:10px;color:var(–blue);background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.17);padding:4px 9px;border-radius:4px;font-family:var(–mono);cursor:pointer;transition:background .12s;display:inline-flex;align-items:center;gap:3px}
+.ep-ri:hover{background:rgba(14,165,233,.14)}
+
+.ep-tip{background:rgba(14,165,233,.05);border-left:3px solid var(–blue);border-radius:0 6px 6px 0;padding:9px 13px;margin-top:12px;font-size:11.5px;color:var(–dim);line-height:1.6}
+.ep-tip strong{color:var(–teal)}
+
+.ep-notes{margin-top:12px}
+.ep-nl{font-family:var(–mono);font-size:8px;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.ep-ta{width:100%;background:var(–s1);border:1px solid var(–border);border-radius:6px;padding:9px 11px;font-family:var(–mono);font-size:11px;color:var(–text);resize:vertical;min-height:54px;outline:none;transition:border-color .15s}
+.ep-ta:focus{border-color:var(–blue)}
+.ep-ta::placeholder{color:var(–muted)}
+
+/* Week overview panel */
+.wk-overview{background:var(–s1);border:1px solid var(–border);border-radius:8px;padding:16px 18px;margin-bottom:20px;animation:fadeUp .35s ease .16s both}
+.wo-title{font-family:var(–mono);font-size:9px;color:var(–muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.wo-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wo-day{text-align:center;padding:8px 4px;border-radius:6px;border:1px solid var(–border);cursor:pointer;transition:all .15s}
+.wo-day:hover:not(.wo-rest){border-color:var(–border2)}
+.wo-day.wo-open{border-color:var(–blue);background:rgba(14,165,233,.06)}
+.wo-day.wo-done{border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.04)}
+.wo-day.wo-rest{cursor:default;opacity:.6}
+.wo-day.wo-today{border-color:rgba(14,165,233,.45)}
+.wo-dow{font-family:var(–mono);font-size:8px;color:var(–muted);text-transform:uppercase;margin-bottom:3px}
+.wo-date{font-family:var(–mono);font-size:10px;color:var(–text);margin-bottom:5px}
+.wo-icon{font-size:14px;margin-bottom:3px}
+.wo-p{height:3px;background:var(–border);border-radius:2px;overflow:hidden;margin-top:4px}
+.wo-pf{height:100%;background:var(–green);border-radius:2px}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(–s2);border:1px solid var(–green);border-radius:6px;padding:9px 15px;font-family:var(–mono);font-size:11px;color:var(–green);opacity:0;transform:translateY(8px);transition:all .28s;z-index:1001;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media(max-width:1100px){.day-grid{grid-template-columns:repeat(4,1fr)}.wo-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:900px){.sidebar{display:none}.main{margin-left:0}.wk-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.day-grid{grid-template-columns:repeat(2,1fr)}.wo-grid{grid-template-columns:repeat(2,1fr)}.content{padding:16px 14px 60px}.topbar{padding:12px 14px}}
+</style>
+
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-tag">350-801 CLCOR v2.0</div>
+    <div class="sb-title">CCNP <span>Collab</span></div>
+  </div>
+  <div class="sb-countdown">
+    <div class="cd-num" id="cd">—</div>
+    <div class="cd-lbl">Days to Exam</div>
+  </div>
+  <div class="sb-exam">🎯 Exam: 30 May 2026</div>
+  <div class="sb-prog">
+    <div class="sb-prog-head"><span>Overall Progress</span><span id="sbpct">0%</span></div>
+    <div class="sb-track"><div class="sb-fill" id="sbfill" style="width:0%"></div></div>
+    <div class="sb-stats">
+      <div class="sb-stat"><div class="sb-stat-v" id="sbtasks">0</div><div class="sb-stat-l">Tasks Done</div></div>
+      <div class="sb-stat"><div class="sb-stat-v" id="sbhours">0h</div><div class="sb-stat-l">Hours Done</div></div>
+    </div>
+  </div>
+  <nav class="wn" id="wn"></nav>
+</aside>
+
+<!-- MAIN -->
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="tbtitle">CLCOR <span>Study Plan</span></div>
+    <div class="tb-nav">
+      <div class="tb-nav-btn" id="btn-prev" title="Previous week">&#8592;</div>
+      <div class="tb-wnum" id="tb-wnum">Week 1 / 11</div>
+      <div class="tb-nav-btn" id="btn-next" title="Next week">&#8594;</div>
+    </div>
+    <span class="tb-badge b-bl" id="tb-phase">Phase 1</span>
+    <span class="tb-badge b-am" id="tb-days">— days left</span>
+    <span class="tb-badge b-gn">3h / day</span>
+  </div>
+  <div class="content" id="content"></div>
+</div>
+</div>
+<div class="toast" id="toast">✓ Saved</div>
+
+<script>
+// ─────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────
+const EXAM_DATE = new Date('2026-05-30');
+
+const PHASES = [
+  {id:'p1',label:'Phase 1',name:'Foundation — Infrastructure & Protocols',color:'#0ea5e9',weeks:[1,2,3],domains:[1,2],
+   desc:'Domains 1.0 Infrastructure (15%) + 2.0 Protocols & Codecs (20%). 35% of exam. Builds on your CCNA base.'},
+  {id:'p2',label:'Phase 2',name:'Core UC Solutions & Cloud',color:'#22d3ee',weeks:[4,5,6],domains:[3,4],
+   desc:'Domains 3.0 UC Solutions (20%) + 4.0 Cloud Collab (12%). 32% of exam. CUCM features, CUC, Jabber, Webex.'},
+  {id:'p3',label:'Phase 3',name:'Design, Migration & Troubleshooting',color:'#a78bfa',weeks:[7],domains:[5,6],
+   desc:'Domains 5.0 Infrastructure Design (17%) + 6.0 Migration & Troubleshooting (16%). 33% of exam.'},
+  {id:'p4',label:'Phase 4',name:'Revision, Mock Exams & Final Prep',color:'#fbbf24',weeks:[8,9,10,11],domains:[1,2,3,4,5,6],
+   desc:'All domains. Full revision, 6 timed mock exams, weak-area targeting, exam-day strategy.'},
+];
+
+const DOMAINS = [
+  {id:1,name:'Infrastructure',w:15,c:'#0ea5e9'},
+  {id:2,name:'Protocols & Codecs',w:20,c:'#22d3ee'},
+  {id:3,name:'UC Solutions',w:20,c:'#34d399'},
+  {id:4,name:'Cloud Collab',w:12,c:'#a78bfa'},
+  {id:5,name:'Infra Design',w:17,c:'#fb923c'},
+  {id:6,name:'Migration & Troubleshoot',w:16,c:'#fbbf24'},
+];
+
+// Week start dates (Sat): W1=Mar14, W2=Mar21, ... W11=May23
+const WEEK_STARTS = [
+  '2026-03-14','2026-03-21','2026-03-28',
+  '2026-04-04','2026-04-11','2026-04-18',
+  '2026-04-25','2026-05-02','2026-05-09',
+  '2026-05-16','2026-05-23'
+];
+
+const DOW = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'];
+
+function dateStr(weekIdx, dayIdx) {
+  const base = new Date(WEEK_STARTS[weekIdx]);
+  const d = new Date(base);
+  d.setDate(d.getDate() + dayIdx);
+  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}).replace(' ','‑');
+}
+
+function isToday(weekIdx, dayIdx) {
+  const base = new Date(WEEK_STARTS[weekIdx]);
+  const d = new Date(base);
+  d.setDate(d.getDate() + dayIdx);
+  const t = new Date();
+  return d.getFullYear()===t.getFullYear() && d.getMonth()===t.getMonth() && d.getDate()===t.getDate();
+}
+
+// ── ALL WEEKS DATA ──
+const WEEKS = [
+// ─── WEEK 1: Mar 14–20 ───────────────────────────────────
+{num:1,phase:'p1',title:'CUCM Architecture & Dial Plan Foundations',
+ domain:'Domain 1.0 Infrastructure (15%) + Domain 2.0 Protocols (20%)',
+ days:[
+  // Sat Mar 14
+  {dow:0,type:'study',hours:3,topic:'CUCM Cluster Architecture & Blueprint Study',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w1d0t0',x:'Download & read CLCOR v2.0 exam blueprint PDF — highlight all 6 domains and weights',tags:['cisco']},
+      {id:'w1d0t1',x:'CUCM cluster architecture: Publisher vs Subscriber roles, intracluster communication',tags:['cisco']},
+      {id:'w1d0t2',x:'CUCM database replication (IDS) — replication states and how to verify',tags:['cisco']},
+      {id:'w1d0t3',x:'Cisco UC portfolio overview: CUCM, CUC, UCCX, Expressway, IM&P, Webex',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'60 min',tasks:[
+      {id:'w1d0t4',x:'Access DevNet Always-On CUCM sandbox — navigate Cluster > Nodes page',tags:['lab']},
+      {id:'w1d0t5',x:'Run CLI: utils dbreplication runtimestate — document the output',tags:['lab']},
+    ]},
+    {t:'review',i:'🔁',n:'Review',d:'30 min',tasks:[
+      {id:'w1d0t6',x:'Create 5 flashcards: cluster roles, replication states, UC product names',tags:['review']},
+    ]},
+   ],
+   res:['DevNet Always-On CUCM Sandbox','Cisco CLCOR v2.0 Exam Topics PDF','CUCM Admin Guide 14.x'],
+   tip:'<strong>Start here:</strong> The blueprint PDF is your north star. Download it now. Your TAC background means you already know most of this operationally — the exam just requires precise naming.',
+  },
+  // Sun Mar 15 — REST
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest. Memory consolidation happens during downtime.'},
+  // Mon Mar 16
+  {dow:2,type:'study',hours:3,topic:'CUCM Dial Plan: Partitions, CSS & Route Plans',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w1d2t0',x:'Partitions & Calling Search Spaces (CSS) — full logic, ordering, multiple partitions',tags:['cisco']},
+      {id:'w1d2t1',x:'Route Groups → Route Lists → Route Patterns: wildcard chars (X, @, !, [n-m]), longest match rule',tags:['cisco']},
+      {id:'w1d2t2',x:'Translation Patterns vs Transformation Masks — use cases and when each applies',tags:['cisco']},
+      {id:'w1d2t3',x:'Hunt Groups, Hunt Lists, Hunt Pilots — call queuing and ring-all vs top-down',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w1d2t4',x:'Lab: Create Partition, CSS, Route Group, Route List, Route Pattern to PSTN',tags:['lab']},
+      {id:'w1d2t5',x:'Use CUCM Dialed Number Analyzer (DNA) to verify route pattern matching',tags:['lab']},
+      {id:'w1d2t6',x:'Draw call-flow diagram: IP Phone → CSS → Partition match → Route Pattern → Gateway',tags:['lab']},
+    ]},
+    {t:'review',i:'🔁',n:'Review',d:'10 min',tasks:[
+      {id:'w1d2t7',x:'Add 5 flashcards on dial plan logic (CSS order, wildcard meanings)',tags:['review']},
+    ]},
+   ],
+   res:['CUCM Dial Plan Guide','Cisco DNA Tool (built into CUCM)','Boson ExSim CLCOR'],
+   tip:'<strong>TAC advantage:</strong> Think of a real misrouted-call case you handled. Trace it back to CSS/partition miss. That lived experience cements these concepts permanently.',
+  },
+  // Tue Mar 17
+  {dow:3,type:'study',hours:3,topic:'SIP Protocol Deep Dive + Wireshark Trace',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w1d3t0',x:'SIP RFC 3261: INVITE, ACK, BYE, CANCEL, OPTIONS, REGISTER, REFER methods',tags:['cisco']},
+      {id:'w1d3t1',x:'SIP response codes: 1xx Provisional, 2xx Success, 4xx Client Error (403,404,480,486,487), 5xx/6xx',tags:['cisco']},
+      {id:'w1d3t2',x:'SIP call flow: INVITE→100 Trying→180 Ringing→200 OK→ACK→RTP Media→BYE→200 OK',tags:['cisco']},
+      {id:'w1d3t3',x:'SDP body in INVITE: o= origin, c= connection, m= media, a= attributes — codec negotiation',tags:['cisco']},
+      {id:'w1d3t4',x:'Early Offer vs Delayed Offer: which CUCM uses by default and when to change',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab — Wireshark',d:'80 min',tasks:[
+      {id:'w1d3t5',x:'Download SIP PCAP from PacketLife.net. Open in Wireshark, filter: sip',tags:['lab']},
+      {id:'w1d3t6',x:'Follow INVITE dialog: identify all headers (From, To, Via, Contact, CSeq, Call-ID)',tags:['lab']},
+      {id:'w1d3t7',x:'Read SDP inside INVITE body — identify codec list, media IP, RTP port',tags:['lab']},
+    ]},
+   ],
+   res:['RFC 3261 (SIP Core)','PacketLife.net PCAP library','Wireshark SIP filter guide'],
+   tip:'<strong>DevNet leverage:</strong> SIP is REST-like — stateless requests, verb methods, numeric response codes. Your API debugging instinct applies directly to SIP trace analysis.',
+  },
+  // Wed Mar 18
+  {dow:4,type:'study',hours:3,topic:'H.323, SCCP & Codec Fundamentals',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w1d4t0',x:'H.323 protocol stack: H.225 (RAS + Q.931 call signaling) + H.245 (capability exchange)',tags:['cisco']},
+      {id:'w1d4t1',x:'H.323 Gatekeeper: RAS functions (ARQ, ACF, ARJ, URQ), zones, registration',tags:['cisco']},
+      {id:'w1d4t2',x:'SCCP (Skinny): how Cisco IP phones register with CUCM — key messages (Register, CallInfo, OpenReceiveChannel)',tags:['cisco']},
+      {id:'w1d4t3',x:'Codecs: G.711 (64kbps), G.729 (8kbps), G.722 (HD 64k), G.723, iLBC, Opus — MOS scores',tags:['cisco']},
+      {id:'w1d4t4',x:'Bandwidth formula: G.711 call = 87.2kbps total / G.729 = 31.2kbps (with IP/UDP/RTP/Ethernet headers)',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Practice',d:'60 min',tasks:[
+      {id:'w1d4t5',x:'Register Cisco Jabber or IP Communicator to CUCM sandbox. Observe SCCP registration in logs',tags:['lab']},
+      {id:'w1d4t6',x:'Bandwidth worksheet: calculate total WAN BW for 15 concurrent G.729 calls (show full working)',tags:['lab']},
+    ]},
+    {t:'review',i:'🔁',n:'Review',d:'30 min',tasks:[
+      {id:'w1d4t7',x:'10 practice questions: SIP codes + codec BW calculations (Boson topic filter)',tags:['review']},
+    ]},
+   ],
+   res:['CUCM SCCP Registration Guide','H.323 Basics — Cisco Doc','Cisco Codec BW Calculator'],
+   tip:'H.323 is legacy but still tested. Know the H.225/H.245 split. G.729 and G.711 BW questions appear on almost every CLCOR exam attempt.',
+  },
+  // Thu Mar 19
+  {dow:5,type:'study',hours:3,topic:'QoS for UC: DSCP, Regions, Locations & CAC',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w1d5t0',x:'DSCP markings for UC: EF/46 voice, AF41/34 video, CS3/24 call signaling, CS2/16 data',tags:['cisco']},
+      {id:'w1d5t1',x:'DiffServ vs IntServ (RSVP): which Cisco UC uses and why DiffServ is the answer',tags:['cisco']},
+      {id:'w1d5t2',x:'CUCM Regions: codec preference per region-pair, max audio BW, max video BW, video call BW',tags:['cisco']},
+      {id:'w1d5t3',x:'CUCM Locations (CAC): BW pool model, location links, RSVP-enabled CAC, shadow location',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w1d5t4',x:'CUCM lab: create 3 Regions (HQ, Branch, Remote), set codec preferences between pairs',tags:['lab']},
+      {id:'w1d5t5',x:'Create Locations: HQ and Branch, set audio BW limit. Trigger CAC rejection and observe',tags:['lab']},
+      {id:'w1d5t6',x:'Practice: if WAN = 2 Mbps, G.711, how many concurrent calls before CAC blocks?',tags:['lab']},
+    ]},
+   ],
+   res:['QoS SRND for Cisco UC','CUCM Region/Location Config Guide','Cisco DSCP Marking QoS Whitepaper'],
+   tip:'<strong>CCNA leverage:</strong> You know QoS. CLCOR extends it: CUCM controls codec preference via Regions; the network enforces marking via DSCP. Know both sides.',
+  },
+  // Fri Mar 20
+  {dow:6,type:'study',hours:3,topic:'Week 1 Review + Practice Quiz',
+   sessions:[
+    {t:'review',i:'🔁',n:'Consolidation',d:'90 min',tasks:[
+      {id:'w1d6t0',x:'Review all notes from Week 1. Identify top 3 weakest topics.',tags:['review']},
+      {id:'w1d6t1',x:'Flashcard drill: CUCM cluster roles, CSS logic, SIP codes, codecs, DSCP values',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Practice Quiz',d:'90 min',tasks:[
+      {id:'w1d6t2',x:'Timed quiz: 30 questions covering Week 1 topics (Boson or Measureup). 40-min limit.',tags:['mock']},
+      {id:'w1d6t3',x:'Score analysis: any topic below 70%? Add to Weak List in your notes.',tags:['mock']},
+      {id:'w1d6t4',x:'Preview Week 2 topics: CUCM advanced features, gateways, security',tags:['review']},
+    ]},
+   ],
+   res:['Boson ExSim for CCNP Collaboration','Measureup 350-801','Cisco Learning Network'],
+   tip:'Score >75% = on track. 65–75% = review weak areas. <65% = slow Week 2 pace and repeat fundamentals.',
+  },
+ ]
+},
+
+// ─── WEEK 2: Mar 21–27 ───────────────────────────────────
+{num:2,phase:'p1',title:'CUCM Features, Gateways & Security',
+ domain:'Domain 1.0 Infrastructure + Domain 2.0 Protocols',
+ days:[
+  // Sat Mar 21
+  {dow:0,type:'study',hours:3,topic:'CUCM Features: CFwdAll, BLF, Mobility & EM',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w2d0t0',x:'Call Forward All/Busy/NoAnswer: logic, CFNA timer, internal vs external forwarding',tags:['cisco']},
+      {id:'w2d0t1',x:'Busy Lamp Field (BLF): Speed Dial BLF, BLF Pickup Groups, intercom',tags:['cisco']},
+      {id:'w2d0t2',x:'Cisco Unified Mobility: Single Number Reach (SNR), Remote Destination Profile',tags:['cisco']},
+      {id:'w2d0t3',x:'Extension Mobility (EM): device profile, login/logout behavior, EM Cross-Cluster (EMCC)',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w2d0t4',x:'Configure CFwdAll on test DN — verify call forwards to voicemail pilot',tags:['lab']},
+      {id:'w2d0t5',x:'Set up Extension Mobility: create device profile, assign to user, test login/logout',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Features Config Guide','DevNet CUCM Always-On Sandbox','CiscoLive BRKCOL-2xxx sessions'],
+   tip:'EM and SNR appear often in scenario questions. Know the config steps AND the call flow logic — not just the concept name.',
+  },
+  // Sun Mar 22 — REST
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest day.'},
+  // Mon Mar 23
+  {dow:2,type:'study',hours:3,topic:'Media Resources: MTP, CFB, Transcoder & MOH',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w2d2t0',x:'Media Resource types: MTP (Media Termination Point), CFB (Conference Bridge), Transcoder, MOH',tags:['cisco']},
+      {id:'w2d2t1',x:'Media Resource Groups (MRG) and MRG Lists (MRGL): priority and failover logic',tags:['cisco']},
+      {id:'w2d2t2',x:'Transcoder: when required (codec mismatch + features that require MTP/Transcoder)',tags:['cisco']},
+      {id:'w2d2t3',x:'Conference types: ad-hoc (Meet-Me) vs meet-me, hardware vs software CFB limits',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w2d2t4',x:'Configure MRG and MRGL in CUCM. Assign to Device Pool. Verify resource allocation order.',tags:['lab']},
+      {id:'w2d2t5',x:'Set up Music on Hold (MOH) server with an audio source. Test hold behavior.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Media Resources Config Guide','CUCM Conference Bridge Guide','Cisco MTP/Transcoder Guide'],
+   tip:'MRGL device-level setting takes priority over Device Pool MRGL — classic exam trap. Know the order.',
+  },
+  // Tue Mar 24
+  {dow:3,type:'study',hours:3,topic:'Voice Gateways: MGCP, H.323 GW & SIP Trunk to PSTN',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w2d3t0',x:'MGCP gateway: call control by CUCM, FXO/FXS/PRI endpoint types, limited local features',tags:['cisco']},
+      {id:'w2d3t1',x:'H.323 gateway in IOS: dial peers, voice-port types, DTMF relay methods',tags:['cisco']},
+      {id:'w2d3t2',x:'SIP Trunk to PSTN: SIP Profile, SIP Security Profile, Normalization Scripts (LUA)',tags:['cisco']},
+      {id:'w2d3t3',x:'When to use MGCP vs H.323 GW vs SIP Trunk for PSTN — design decision criteria',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w2d3t4',x:'Configure SIP Trunk in CUCM: create SIP Profile, Security Profile, SIP Trunk',tags:['lab']},
+      {id:'w2d3t5',x:'Add Route Pattern → Route List → Route Group → SIP Trunk. Test dial-out.',tags:['lab']},
+    ]},
+    {t:'review',i:'🔁',n:'Review',d:'10 min',tasks:[
+      {id:'w2d3t6',x:'5 flashcards: MGCP vs SIP Trunk, Early/Delayed Offer, DTMF relay methods',tags:['review']},
+    ]},
+   ],
+   res:['CUCM SIP Trunk Config Guide','IOS Voice Gateway Config Guide','MGCP Config Guide'],
+   tip:'SIP Trunks dominate modern deployments. Understand Early Offer vs Delayed Offer — it affects SDP/media flow and is a frequent exam question.',
+  },
+  // Wed Mar 25
+  {dow:4,type:'study',hours:3,topic:'CUCM LDAP Integration & User Provisioning',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w2d4t0',x:'CUCM LDAP Directory Sync: server config, sync agreement, sync filters, field mapping',tags:['cisco']},
+      {id:'w2d4t1',x:'CUCM LDAP Authentication: local auth vs LDAP auth, when to use each',tags:['cisco']},
+      {id:'w2d4t2',x:'End-User vs Application-User in CUCM: roles, permissions groups, CTI access',tags:['cisco']},
+      {id:'w2d4t3',x:'Cisco UDS (User Data Service) API: directory queries used by Jabber — REST endpoint',tags:['devnet']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w2d4t4',x:'Configure LDAP sync in CUCM sandbox. Run manual sync. Verify users appear.',tags:['lab']},
+      {id:'w2d4t5',x:'Assign Standard CCM End User role. Test access level.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM LDAP Integration Guide','DevNet CUCM AXL/UDS API Docs','Cisco Identity Management for UC'],
+   tip:'<strong>DevNet bonus:</strong> UDS API is tested — it\'s how Jabber finds users in directory. Your DevNet Associate background makes this fast.',
+  },
+  // Thu Mar 26
+  {dow:5,type:'study',hours:3,topic:'CUCM Security: TLS, SRTP, CTL & Mixed Mode',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w2d5t0',x:'CUCM Security Modes: Non-Secure, Mixed, Full (Secure) — when each applies',tags:['cisco']},
+      {id:'w2d5t1',x:'CTL (Certificate Trust List) and ITL (Initial Trust List) — device trust model explained',tags:['cisco']},
+      {id:'w2d5t2',x:'TLS for signaling (SIP-TLS, SCCP-TLS) and SRTP for media encryption',tags:['cisco']},
+      {id:'w2d5t3',x:'Certificate management: self-signed vs CA-signed, OS Admin cert stores (CallManager, Tomcat)',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w2d5t4',x:'Enable Mixed Mode on CUCM using tokenless CTL. Verify phones re-register.',tags:['lab']},
+      {id:'w2d5t5',x:'Create a Device Security Profile set to Encrypted. Assign to a test phone.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Security Guide','CTL/ITL Troubleshooting TAC Note','Cisco TLS for UC Whitepaper'],
+   tip:'Security = 15% of exam. CTL/ITL/SRTP questions are consistent. Know: Non-Secure phones can register in Mixed Mode — that\'s the key difference from Full mode.',
+  },
+  // Fri Mar 27
+  {dow:6,type:'study',hours:3,topic:'Week 2 Review + Cumulative Quiz (Weeks 1–2)',
+   sessions:[
+    {t:'review',i:'🔁',n:'Review',d:'90 min',tasks:[
+      {id:'w2d6t0',x:'Review Weeks 1–2 notes. Update flashcard deck. Focus on weak areas from Week 1 quiz.',tags:['review']},
+      {id:'w2d6t1',x:'Cross-check weak list against exam blueprint — ensure gaps are covered.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Quiz',d:'90 min',tasks:[
+      {id:'w2d6t2',x:'40-question timed quiz: Weeks 1–2 content. 52-minute limit. Target >75%.',tags:['mock']},
+      {id:'w2d6t3',x:'Review every wrong answer — understand the WHY, not just the correct option.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim CLCOR','Measureup 350-801','CiscoLive On-Demand (free)'],
+   tip:'By end of Week 2: solid on Infrastructure basics. <70% on any topic = flag for Phase 4 revision.',
+  },
+ ]
+},
+
+// ─── WEEK 3: Mar 28 – Apr 3 ───────────────────────────────
+{num:3,phase:'p1',title:'IM&P, Jabber, Expressway & Phase 1 Completion',
+ domain:'Domain 1.0 completion + Domain 2.0',
+ days:[
+  // Sat Mar 28
+  {dow:0,type:'study',hours:3,topic:'Cisco IM&P: Architecture, XMPP & Presence',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w3d0t0',x:'IM&P architecture: co-res vs standalone, IM&P nodes, peer nodes, SIP proxy, XCP router',tags:['cisco']},
+      {id:'w3d0t1',x:'XMPP federation: inter-domain IM, TLS peer config, XMPP standards (RFC 6120)',tags:['cisco']},
+      {id:'w3d0t2',x:'Presence subscription model: SUBSCRIBE/NOTIFY SIP flow, PIDF/RPID documents',tags:['cisco']},
+      {id:'w3d0t3',x:'IM&P service discovery DNS SRV records: _xmpp-client._tcp, _cisco-uds._tcp',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w3d0t4',x:'IM&P lab (DevNet sandbox): verify node registration to CUCM, check XCP Router service',tags:['lab']},
+      {id:'w3d0t5',x:'Collect IM&P presence logs: check Cisco XCP Router and SIP Proxy service logs',tags:['lab']},
+    ]},
+   ],
+   res:['IM&P Config Guide 14.x','DevNet IM&P Sandbox','Cisco Presence Federation Guide'],
+   tip:'IM&P uses SIP for presence (SUBSCRIBE/NOTIFY) and XMPP for instant messaging — dual-stack by design. Know the split.',
+  },
+  // Sun Mar 29 — REST
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest day.'},
+  // Mon Mar 30
+  {dow:2,type:'study',hours:3,topic:'Cisco Jabber: Architecture & Service Discovery',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w3d2t0',x:'Jabber services: voice, video, IM, presence, voicemail, contacts, screen share',tags:['cisco']},
+      {id:'w3d2t1',x:'Jabber service discovery order: UDS (directory) → TFTP (config) → CUCM login → CUC → IM&P',tags:['cisco']},
+      {id:'w3d2t2',x:'On-prem vs cloud-connected Jabber, Jabber for VDI, Jabber mobile vs desktop differences',tags:['cisco']},
+      {id:'w3d2t3',x:'jabber-config.xml: parameters, how it\'s deployed via TFTP, key settings',tags:['devnet']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w3d2t4',x:'Install Cisco Jabber trial. Connect to DevNet CUCM sandbox. Trace login in console logs.',tags:['lab']},
+      {id:'w3d2t5',x:'Capture Jabber Problem Report Tool (PRT) log. Find service discovery sequence.',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco Jabber Planning & Install Guide','Jabber Troubleshooting Guide','DevNet Jabber SDK'],
+   tip:'Service discovery is a top TAC and top exam topic. Memorise the order cold: UDS → TFTP → CUCM → CUC → IM&P.',
+  },
+  // Tue Mar 31
+  {dow:3,type:'study',hours:3,topic:'Cisco Expressway: MRA, Firewall Traversal & B2B',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w3d3t0',x:'Expressway-C vs Expressway-E: role split, DMZ placement, traversal zones, neighbour zones',tags:['cisco']},
+      {id:'w3d3t1',x:'MRA (Mobile Remote Access): Jabber registration flow via Expressway-E → C → CUCM',tags:['cisco']},
+      {id:'w3d3t2',x:'ICE/TURN/STUN for media traversal — why needed, how Expressway acts as TURN server',tags:['cisco']},
+      {id:'w3d3t3',x:'MRA firewall ports (memorise): TCP 8443, TCP/UDP 5061, UDP 3478, TCP 443',tags:['cisco']},
+      {id:'w3d3t4',x:'B2B: SIP federation, URI dialing, DNS SRV record _sips._tcp lookup flow',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w3d3t5',x:'Draw MRA topology from memory: Jabber → Exp-E → Exp-C → CUCM, label all ports',tags:['lab']},
+      {id:'w3d3t6',x:'Access Expressway admin (dCloud lab) — review traversal zone config, neighbour zones',tags:['lab']},
+    ]},
+   ],
+   res:['Expressway Config Guide','MRA Deployment Guide','Cisco Collab Edge Architecture White Paper'],
+   tip:'<strong>AWS analogy:</strong> Exp-E in DMZ = AWS public subnet. Exp-C = private subnet. Traversal zones = stateful security group rules. Think in those terms.',
+  },
+  // Wed Apr 1
+  {dow:4,type:'study',hours:3,topic:'CUCM High Availability: SRST & DRS Backup',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w3d4t0',x:'CUCM Redundancy Groups: Primary/Secondary/Tertiary TFTP, SRST fallback trigger',tags:['cisco']},
+      {id:'w3d4t1',x:'SRST (Survivable Remote Site Telephony): config on IOS, supported vs unsupported features',tags:['cisco']},
+      {id:'w3d4t2',x:'SRST limitations: no Extension Mobility, no shared lines, limited conferencing, no MOH',tags:['cisco']},
+      {id:'w3d4t3',x:'DRS (Disaster Recovery System): backup/restore, SFTP target, schedule, component selection',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w3d4t4',x:'Configure SRST on IOS router. Stop CUCM Callmanager service. Verify phones register to SRST.',tags:['lab']},
+      {id:'w3d4t5',x:'DRS: initiate manual backup to SFTP. Verify backup status via DRS Admin page.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM SRST Config Guide','DRS Admin Guide','CUCM HA and Redundancy Guide'],
+   tip:'SRST scenarios: "Branch loses WAN → what happens?" Know feature limitations cold (no EM, no shared lines).',
+  },
+  // Thu Apr 2
+  {dow:5,type:'study',hours:3,topic:'Phase 1 Wrap: Domain 1–2 Full Mock + Analysis',
+   sessions:[
+    {t:'review',i:'🔁',n:'Review',d:'60 min',tasks:[
+      {id:'w3d5t0',x:'Full review of Domains 1.0 and 2.0. Rebuild 1-page summary per domain.',tags:['review']},
+      {id:'w3d5t1',x:'Update Anki/flashcard deck with all new terms from Weeks 1–3.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Domain Mock',d:'120 min',tasks:[
+      {id:'w3d5t2',x:'50-question timed mock: Domains 1+2 only. 60-minute limit. Target >78%.',tags:['mock']},
+      {id:'w3d5t3',x:'Score breakdown by sub-topic. Add anything <70% to Phase 4 Weak List.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim (Domain Filter Mode)','CiscoLive On-Demand BRKCOL sessions','Cisco Press CLCOR Study Guide'],
+   tip:'End of Phase 1. Target: >75% on D1+D2. If not — add 1 review session in Week 4 before new content.',
+  },
+  // Fri Apr 3
+  {dow:6,type:'study',hours:3,topic:'Lab Day: Full Dial Plan + MRA Topology Build',
+   sessions:[
+    {t:'lab',i:'⚙️',n:'Extended Lab',d:'180 min',tasks:[
+      {id:'w3d6t0',x:'Build end-to-end: CUCM cluster + SIP Trunk + full dial plan (Partition, CSS, Route Pattern)',tags:['lab']},
+      {id:'w3d6t1',x:'Add SRST config on IOS router. Test WAN-down scenario.',tags:['lab']},
+      {id:'w3d6t2',x:'Draw full network diagram: all components, IPs, protocols, ports.',tags:['lab']},
+      {id:'w3d6t3',x:'Test call scenarios: internal → PSTN out → CFwdAll → voicemail → SRST fallback.',tags:['lab']},
+      {id:'w3d6t4',x:'Document all CLI commands used: show commands, debug outputs, log locations.',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco dCloud UC Enterprise Lab','CUCM CLI Admin Guide','IOS Voice Troubleshooting Guide'],
+   tip:'This dedicated lab day builds muscle memory for scenario questions. Actually doing it beats reading it.',
+  },
+ ]
+},
+
+// ─── WEEK 4: Apr 4–10 ─────────────────────────────────────
+{num:4,phase:'p2',title:'Unity Connection, UCCX & Webex Architecture',
+ domain:'Domain 3.0 — Cisco UC Solutions (20%)',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'Unity Connection: Architecture & Voicemail Config',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w4d0t0',x:'CUC architecture: Voicemail Pilot, Voicemail Ports, MWI server, TRAP port',tags:['cisco']},
+      {id:'w4d0t1',x:'CUC integration types: SCCP vs SIP integration with CUCM — differences and config',tags:['cisco']},
+      {id:'w4d0t2',x:'CUC Call Handlers: System, Directory, Interview handlers — routing rules and greetings',tags:['cisco']},
+      {id:'w4d0t3',x:'CUC greeting priority order: Alternate > Busy > Closed (schedule) > Standard',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w4d0t4',x:'Configure CUC voicemail port (SCCP integration) and pilot number in CUCM.',tags:['lab']},
+      {id:'w4d0t5',x:'Test: unanswered call → voicemail → MWI lamp lights. Verify full flow.',tags:['lab']},
+    ]},
+   ],
+   res:['CUC Admin Guide 14.x','CUCM-CUC SIP Integration Guide','DevNet CUC REST APIs'],
+   tip:'CUC integration is high-frequency in both TAC and exam. SCCP integration is simpler but SIP gives more flexibility. Know both.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest.'},
+  {dow:2,type:'study',hours:3,topic:'CUC Advanced: LDAP, Networking, Notification & VPIM',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w4d2t0',x:'CUC LDAP sync and LDAP authentication (separate from CUCM LDAP — dual config required)',tags:['cisco']},
+      {id:'w4d2t1',x:'CUC Digital Networking: intercluster messaging between CUC clusters',tags:['cisco']},
+      {id:'w4d2t2',x:'VPIM (Voice Profile for Internet Messaging): external voicemail system interop',tags:['cisco']},
+      {id:'w4d2t3',x:'CUC message notification: SMTP, SMS, phone cascade notification rules',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w4d2t4',x:'Set up alternate greeting on CUC mailbox. Configure schedule (active hours only).',tags:['lab']},
+      {id:'w4d2t5',x:'Configure SMTP notification rule for a mailbox. Verify email delivery.',tags:['lab']},
+    ]},
+   ],
+   res:['CUC Networking Guide','CUC Notification Config Guide','VPIM Config Guide'],
+   tip:'Greeting priority is a consistent exam question: Alternate > Busy > Closed > Standard. Memorise it.',
+  },
+  {dow:3,type:'study',hours:3,topic:'UCCX Contact Center Express Architecture',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w4d3t0',x:'UCCX architecture: ACD engine, IVR engine, CTI layer, Finesse agent desktop',tags:['cisco']},
+      {id:'w4d3t1',x:'UCCX licensing tiers: Enhanced vs Premium. Agent seat vs IVR port licensing.',tags:['cisco']},
+      {id:'w4d3t2',x:'CTI (Computer Telephony Integration): JTAPI protocol — how UCCX controls CUCM phones',tags:['cisco']},
+      {id:'w4d3t3',x:'CSQ (Contact Service Queue), Resource Group, Agent assignment to queues',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w4d3t4',x:'UCCX dCloud lab: deploy basic call queue. Create CSQ and resource group.',tags:['lab']},
+      {id:'w4d3t5',x:'Build simple IVR script: welcome prompt → queue → agent answer. Test full flow.',tags:['lab']},
+    ]},
+   ],
+   res:['UCCX Admin Guide','Cisco Finesse Admin Guide','Cisco dCloud UCCX Lab'],
+   tip:'UCCX is lightly tested on CLCOR. Know architecture and JTAPI/CTI integration. Deeper UCCX is on CLCCE concentration.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Cisco Webex Cloud Architecture & Control Hub',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w4d4t0',x:'Webex cloud: Webex App, Meetings, Calling — service model and differences',tags:['cisco']},
+      {id:'w4d4t1',x:'Webex Calling: dedicated instance vs multi-tenant, PSTN options (CCP, LGW, provider)',tags:['cisco']},
+      {id:'w4d4t2',x:'Control Hub (admin.webex.com): user management, device management, analytics dashboards',tags:['cisco']},
+      {id:'w4d4t3',x:'Webex Hybrid Services: Hybrid Calling, Hybrid Calendar, Hybrid Directory — connector model',tags:['aws']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w4d4t4',x:'Create free Webex org. Explore Control Hub — user provisioning, calling settings.',tags:['lab']},
+      {id:'w4d4t5',x:'Webex API: call developer.webex.com, send a message via REST API with your token.',tags:['devnet']},
+    ]},
+   ],
+   res:['Webex Architecture Overview','developer.webex.com','Control Hub Admin Guide'],
+   tip:'<strong>AWS leverage:</strong> Control Hub = AWS Console. Hybrid Services connectors = Direct Connect/VPN. Cloud architecture thinking transfers directly.',
+  },
+  {dow:5,type:'study',hours:3,topic:'CUBE: SIP B2B, Local Gateway & Teams Integration',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w4d5t0',x:'CUBE (Cisco Unified Border Element): SIP-to-SIP B2B routing, media flow-around vs flow-through',tags:['cisco']},
+      {id:'w4d5t1',x:'CUBE as Local Gateway for Webex Calling: SIP trunk to Webex cloud, dial peer config',tags:['cisco']},
+      {id:'w4d5t2',x:'CUBE as SBC for Teams Direct Routing: Microsoft certification, SIP trunk to Teams',tags:['cisco']},
+      {id:'w4d5t3',x:'CUBE dial peer matching: inbound/outbound, voice class URI, preference, SRTP passthrough',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w4d5t4',x:'CUBE lab: configure inbound and outbound dial peers. Test SIP call routing through CUBE.',tags:['lab']},
+      {id:'w4d5t5',x:'Diagram Webex Hybrid Calling topology with CUBE as Local Gateway.',tags:['lab']},
+    ]},
+   ],
+   res:['CUBE Config Guide','Webex Hybrid Calling + LGW Deploy Guide','Teams Direct Routing with CUBE'],
+   tip:'CUBE is a major exam topic. Think of it as a SIP proxy+media interworking device at the border. Very common in PSTN and cloud integration scenarios.',
+  },
+  {dow:6,type:'study',hours:3,topic:'Week 4 Review + Domain 3 Mid-Check Quiz',
+   sessions:[
+    {t:'review',i:'🔁',n:'Review',d:'90 min',tasks:[
+      {id:'w4d6t0',x:'Review CUC, UCCX, Webex architecture notes. Cross-check vs exam blueprint.',tags:['review']},
+      {id:'w4d6t1',x:'Create 1-page cheat sheet for Domain 3 key facts.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Quiz',d:'90 min',tasks:[
+      {id:'w4d6t2',x:'40-question quiz: Domain 3 content (CUC + UCCX + Webex Calling). Target >75%.',tags:['mock']},
+      {id:'w4d6t3',x:'Update weak-topic list. Note any Webex areas needing more depth.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim','Measureup 350-801','Cisco Press Official Cert Guide'],
+   tip:'Webex topics have less depth in older study materials — use Cisco official docs over third-party books for cloud content.',
+  },
+ ]
+},
+
+// ─── WEEK 5: Apr 11–17 ────────────────────────────────────
+{num:5,phase:'p2',title:'UC Design, SIP Normalisation & Full Mock Exam 1',
+ domain:'Domain 3.0 + 5.0 UC Solutions & Design',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'UC Design: Single-Site, Multi-Site & CoW',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w5d0t0',x:'Single-site design: centralised call processing, capacity constraints, design rules',tags:['cisco']},
+      {id:'w5d0t1',x:'Multi-site centralised: WAN constraints, CAC, SRST, codec selection',tags:['cisco']},
+      {id:'w5d0t2',x:'Multi-site distributed: local call processing, GDPR/latency benefits, ICT between clusters',tags:['cisco']},
+      {id:'w5d0t3',x:'Clustering over WAN (CoW): RTT requirement <80ms, max supported configuration',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Design Exercise',d:'90 min',tasks:[
+      {id:'w5d0t4',x:'Design scenario: 500 users, 3 sites, 100Mbps WAN → choose design model and justify',tags:['lab']},
+      {id:'w5d0t5',x:'Calculate WAN BW needed: voice + signaling + video for chosen design',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco Collab SRND Documents','CUCM Deployment Guide','Design Zone for Collaboration (cisco.com)'],
+   tip:'SRND docs are gold for design questions. Key rule: CoW requires RTT <80ms. Centralised always needs SRST at remote sites.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest day.'},
+  {dow:2,type:'study',hours:3,topic:'Bandwidth Calculations, CUCM Sizing & Erlang',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w5d2t0',x:'CUCM capacity: max phones per cluster, per OVA template size (Small/Medium/Large)',tags:['cisco']},
+      {id:'w5d2t1',x:'Erlang B model: traffic intensity (Erlangs), Grade of Service (GoS), trunk count',tags:['cisco']},
+      {id:'w5d2t2',x:'BHCA (Busy Hour Call Attempts): CUCM license counting model',tags:['cisco']},
+      {id:'w5d2t3',x:'Video BW: 720p at various quality levels — impact on CAC Locations BW pool',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Practice Problems',d:'90 min',tasks:[
+      {id:'w5d2t4',x:'Erlang B practice: 800 users, 5% using phones at BH, GoS 1% → how many PSTN trunks?',tags:['lab']},
+      {id:'w5d2t5',x:'CUCM sizing: 2000 phones, 3 sites → which OVA template, how many subscribers?',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco CUCM Sizing Tool','Erlang Calculator — erlang.com','CUCM Virtualisation Supported Config'],
+   tip:'Erlang B appears in CLCOR. You don\'t calculate by hand — but understand: offered traffic + GoS → trunk count. Know the concept and table lookup.',
+  },
+  {dow:3,type:'study',hours:3,topic:'SIP Normalisation, LUA Scripts & Globalised Dial Plan',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w5d3t0',x:'SIP Normalisation: why needed, header manipulation in CUCM SIP Profile',tags:['cisco']},
+      {id:'w5d3t1',x:'LUA normalisation scripts in CUCM: syntax basics, common use cases (strip PAI, fix headers)',tags:['devnet']},
+      {id:'w5d3t2',x:'Globalised dial plan: +E.164 standardisation in CUCM, route patterns with +',tags:['cisco']},
+      {id:'w5d3t3',x:'Transformation: Calling/Called Party Transformation CSS, transformation patterns at gateway',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w5d3t4',x:'Configure a +E.164 route pattern (e.g. +1!). Test outbound call with globalised number.',tags:['lab']},
+      {id:'w5d3t5',x:'Apply a CUCM normalisation script: strip country code prefix from P-Asserted-Identity header.',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco Globalised Call Routing Guide','LUA Normalisation Examples (DevNet)','CUCM SIP Profile Config Guide'],
+   tip:'<strong>DevNet bonus:</strong> LUA scripting uses your coding knowledge. Even basic script comprehension gives exam edge on normalisation questions.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Cisco Video Infrastructure: CMS, Room Kits & TMS',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w5d4t0',x:'Cisco Meeting Server (CMS): coSpace, SIP call legs, XMPP conferencing, clustered deployment',tags:['cisco']},
+      {id:'w5d4t1',x:'Cisco video endpoints: Room Kit, Board, DX series — registration to CUCM vs CMS vs Webex',tags:['cisco']},
+      {id:'w5d4t2',x:'TMS (TelePresence Management Suite): scheduling, provisioning, legacy role',tags:['cisco']},
+      {id:'w5d4t3',x:'CVI (Cloud Video Interop): join Webex or Teams meetings from Cisco endpoints',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w5d4t4',x:'Register Cisco Room Kit or DX to CUCM sandbox. Make a video test call.',tags:['lab']},
+      {id:'w5d4t5',x:'Compare: Webex Meetings cloud vs CMS on-prem — decision criteria diagram.',tags:['lab']},
+    ]},
+   ],
+   res:['CMS Admin Guide','Cisco Video Infrastructure SRND','Webex Room Device Admin Guide'],
+   tip:'Video is growing in exam weight. Focus on CMS architecture and endpoint registration modes (CUCM vs Expressway vs CMS vs Webex cloud).',
+  },
+  {dow:5,type:'study',hours:3,topic:'UC Monitoring: RTMT, Traces, CDRs & Serviceability',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'80 min',tasks:[
+      {id:'w5d5t0',x:'RTMT: perfmon counters, call activity, alert configuration, SDL trace viewer',tags:['cisco']},
+      {id:'w5d5t1',x:'Trace levels: Error, Warn, State Transition, Significant, Entry/Exit, Detailed, Verbose',tags:['cisco']},
+      {id:'w5d5t2',x:'CDR (Call Detail Records) and CMR (Call Management Records): CAR tool, billing reports',tags:['cisco']},
+      {id:'w5d5t3',x:'CUCM service states: show tech system, utils service list, utils ntp status',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w5d5t4',x:'RTMT: connect to CUCM, configure call activity alert, monitor active calls counter',tags:['lab']},
+      {id:'w5d5t5',x:'Collect SDL trace from CUCM. Open in RTMT Trace Analysis. Find INVITE and 200 OK.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Serviceability Admin Guide','RTMT Admin Guide','Cisco TAC CUCM Troubleshooting Guide'],
+   tip:'You use RTMT and trace collection daily as TAC. Focus on what each tool shows and WHEN you\'d use it in an exam scenario question.',
+  },
+  {dow:6,type:'study',hours:3,topic:'Full Practice Exam #1 + Deep Analysis',
+   sessions:[
+    {t:'review',i:'🔁',n:'Quick Review',d:'30 min',tasks:[
+      {id:'w5d6t0',x:'5-minute rapid scan of flashcards for each week so far (Weeks 1–5).',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Full Mock Exam #1',d:'150 min',tasks:[
+      {id:'w5d6t1',x:'90-question full practice exam (Boson ExSim). Strict 120-minute timer. Exam conditions — no notes.',tags:['mock']},
+      {id:'w5d6t2',x:'Review all wrong answers. Domain breakdown — which domains are weakest?',tags:['mock']},
+      {id:'w5d6t3',x:'Update master Weak List. Adjust Phase 3–4 focus based on domain scores.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim (Full Exam Mode)','Measureup full exam','Cisco Learning Network community'],
+   tip:'65–70% here is normal. Analyse the breakdown, not just the score. Domains 5–6 content still ahead will improve your score further.',
+  },
+ ]
+},
+
+// ─── WEEK 6: Apr 18–24 ────────────────────────────────────
+{num:6,phase:'p2',title:'Cloud Deep Dive & Phase 2 Completion',
+ domain:'Domain 4.0 — Cloud Collaboration (12%)',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'Webex Cloud Deep Dive: Meetings, Edge & Security',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w6d0t0',x:'Webex Meetings cloud infra: media nodes, TURN servers, WebRTC browser clients',tags:['cisco']},
+      {id:'w6d0t1',x:'Webex Edge Audio: join Webex Meetings from PSTN via your UC infrastructure',tags:['cisco']},
+      {id:'w6d0t2',x:'Webex cloud security: end-to-end encryption, identity verification, data residency options',tags:['cisco']},
+      {id:'w6d0t3',x:'Control Hub security: meeting lock, password policies, DLP integration, compliance features',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w6d0t4',x:'Webex free org: host a Webex Meeting. Test recording, breakout rooms, participant controls.',tags:['lab']},
+      {id:'w6d0t5',x:'Explore Control Hub analytics: call quality reports, device health, troubleshooting.',tags:['lab']},
+    ]},
+   ],
+   res:['Webex Help Center (help.webex.com)','Control Hub Admin Guide','Webex Security White Paper'],
+   tip:'Webex cloud = awareness-level on CLCOR. Know architecture and how it relates to on-prem CUCM. Deeper Webex is on CLICA/CLACCM concentrations.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest.'},
+  {dow:2,type:'study',hours:3,topic:'Hybrid UC: Hybrid Services & Migration Patterns',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w6d2t0',x:'Webex Hybrid Services: Connector Host, Expressway-C connector, cloud registration link',tags:['cisco']},
+      {id:'w6d2t1',x:'Hybrid Calling: users on CUCM registered to Webex — dual-registration scenario',tags:['cisco']},
+      {id:'w6d2t2',x:'Migration: CUCM on-prem → Webex Calling. User migration steps, number portability.',tags:['cisco']},
+      {id:'w6d2t3',x:'Dial plan: hybrid E.164 design when CUCM + Webex Calling coexist on same PSTN',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w6d2t4',x:'Map hybrid scenario: 300 users CUCM + 200 on Webex Calling, shared PSTN via CUBE LGW.',tags:['lab']},
+      {id:'w6d2t5',x:'Trace: call from Webex Calling user → CUCM user. Draw every hop and protocol.',tags:['lab']},
+    ]},
+   ],
+   res:['Webex Hybrid Services Deploy Guide','CUCM to Webex Migration Guide','Cisco Collab Hybrid Architecture'],
+   tip:'Hybrid scenarios are the most common real-world pattern today and increasingly tested. Think both user experience AND call routing implications.',
+  },
+  {dow:3,type:'study',hours:3,topic:'Intercluster Trunks, ILS & Multi-Cluster Design',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w6d3t0',x:'Intercluster Trunks (ICT): H.323 ICT vs SIP ICT — configuration and use cases',tags:['cisco']},
+      {id:'w6d3t1',x:'ILS (Inter-Location Bandwidth Manager): dynamic BW reservation across clusters',tags:['cisco']},
+      {id:'w6d3t2',x:'GDPR/locality design: data residency, call recording compliance, UC data flows',tags:['cisco']},
+      {id:'w6d3t3',x:'URI dialing across clusters: E.164 vs URI, CUCM directory URI routing',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Design Exercise',d:'90 min',tasks:[
+      {id:'w6d3t4',x:'Design: multi-cluster deployment with ICT. Draw topology with ILS and bandwidth pools.',tags:['lab']},
+      {id:'w6d3t5',x:'Configure a SIP ICT in CUCM lab (or document config steps from guide).',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco Globalised Call Routing Guide','ILS Config Guide','CUCM Multi-Cluster Design Guide'],
+   tip:'ICT + ILS is tested in design scenarios. Know: SIP ICT is preferred over H.323 ICT for newer deployments. ILS provides automatic route advertisement.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Zero-Trust, UC Compliance & Certificate Management',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w6d4t0',x:'Zero-Trust security in Cisco UC: mutual TLS, token-based auth, certificate pinning',tags:['cisco']},
+      {id:'w6d4t1',x:'UC compliance: IM/call recording, E-Discovery, legal hold requirements',tags:['cisco']},
+      {id:'w6d4t2',x:'CUCM OS Admin: certificate regeneration, Tomcat vs CallManager cert types, CA signing workflow',tags:['cisco']},
+      {id:'w6d4t3',x:'Expressway certificate: SAN fields required, CA chain import, CUCM cert trust',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w6d4t4',x:'CUCM OS Admin: regenerate a self-signed cert. Observe phone impact and recovery.',tags:['lab']},
+      {id:'w6d4t5',x:'Use openssl s_client to verify Expressway certificate chain from external client.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Certificate Guide','Cisco UC Security Best Practices','Expressway Certificate Guide'],
+   tip:'Security crosses all domains. Build mental map: on-prem = CTL/SRTP/TLS; Cloud = E2E encryption/token auth. Know both sides.',
+  },
+  {dow:5,type:'study',hours:3,topic:'Phase 2 Wrap: Domain 3–4 Consolidated Mock',
+   sessions:[
+    {t:'review',i:'🔁',n:'Consolidation',d:'60 min',tasks:[
+      {id:'w6d5t0',x:'Full review Domains 3 and 4. 1-page cheat sheet per domain.',tags:['review']},
+      {id:'w6d5t1',x:'Cross-domain: CUC→CUCM integration, Jabber→Expressway MRA, Webex→LGW PSTN.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Domain Mock',d:'120 min',tasks:[
+      {id:'w6d5t2',x:'50-question quiz: Domains 3+4. 60-min limit. Target >76%.',tags:['mock']},
+      {id:'w6d5t3',x:'Score analysis. Weak-topic update.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim','Official CLCOR Cert Guide (Cisco Press)','Cisco dCloud'],
+   tip:'End of Phase 2. D3+D4 = 32% of exam. Strong performance here has massive score impact.',
+  },
+  {dow:6,type:'study',hours:3,topic:'Extended Lab: Full UC End-to-End Scenario',
+   sessions:[
+    {t:'lab',i:'⚙️',n:'Extended Lab',d:'180 min',tasks:[
+      {id:'w6d6t0',x:'Build: CUCM + CUC voicemail + IM&P + Expressway MRA + Jabber client — all integrated.',tags:['lab']},
+      {id:'w6d6t1',x:'Test: internal call, PSTN call, voicemail deposit, Jabber IM, presence status change.',tags:['lab']},
+      {id:'w6d6t2',x:'Fault injection: stop IM&P service — what breaks? What continues working?',tags:['lab']},
+      {id:'w6d6t3',x:'Document: architecture diagram, all config parameters, troubleshooting steps used.',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco dCloud UC Enterprise Lab','CUCM+CUC+IM&P Integration Guide','Jabber Troubleshooting Guide'],
+   tip:'This lab = practical exam equivalent. Build it from scratch and troubleshoot it = confident in 60%+ of exam topics.',
+  },
+ ]
+},
+
+// ─── WEEK 7: Apr 25 – May 1 ───────────────────────────────
+{num:7,phase:'p3',title:'Infrastructure Design, Migration & Troubleshooting',
+ domain:'Domain 5.0 Design (17%) + Domain 6.0 Troubleshooting (16%)',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'UC Troubleshooting Methodology & Common Issues',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w7d0t0',x:'Structured troubleshooting: OSI model applied to UC, divide-and-conquer approach',tags:['cisco']},
+      {id:'w7d0t1',x:'CUCM CLI troubleshooting: utils service list, show tech system, utils ntp status',tags:['cisco']},
+      {id:'w7d0t2',x:'One-way audio root causes: NAT traversal, DSCP re-marking, codec mismatch, firewall blocking RTP',tags:['cisco']},
+      {id:'w7d0t3',x:'Phone registration failures: TFTP unreachable, CTL mismatch, CUCM overload, network issue',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Fault Injection Lab',d:'90 min',tasks:[
+      {id:'w7d0t4',x:'Lab: disable CUCM CallManager service — observe phone impact and troubleshoot recovery',tags:['lab']},
+      {id:'w7d0t5',x:'Simulate one-way audio: block RTP port range in firewall. Verify with Wireshark + RTMT.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Troubleshooting Guide','Cisco TAC UC Troubleshooting Blogs','Common CUCM Issues TAC Note'],
+   tip:'<strong>TAC goldmine:</strong> You troubleshoot these daily. Map your real process to the "official" methodology. Your experience IS the study material.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest day.'},
+  {dow:2,type:'study',hours:3,topic:'CUCM Upgrade Procedure & Migration Planning',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w7d2t0',x:'CUCM upgrade methodology: Pre-upgrade checks → DRS backup → COP install → Upgrade → Switch-Version',tags:['cisco']},
+      {id:'w7d2t1',x:'COP file: purpose, how to install, which COPs are required before major version upgrade',tags:['cisco']},
+      {id:'w7d2t2',x:'Post-upgrade validation: services, phone registration, CDRs, RTMT counters, replication',tags:['cisco']},
+      {id:'w7d2t3',x:'Rollback from inactive partition: utils system switch-version (when to use)',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w7d2t4',x:'Write upgrade procedure from memory (without notes). Check against official guide.',tags:['lab']},
+      {id:'w7d2t5',x:'CLI: show version active, show version inactive, utils system switch-version — run on sandbox.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM Upgrade Guide 14.x','COP File Installation Guide','Cisco Software Lifecycle Policy'],
+   tip:'Upgrade methodology is procedure-based. Know steps in order. Post-upgrade validation checklist is frequently asked.',
+  },
+  {dow:3,type:'study',hours:3,topic:'Expressway & Security Troubleshooting',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w7d3t0',x:'Expressway MRA failure scenarios: certificate error, traversal zone mismatch, TURN failure',tags:['cisco']},
+      {id:'w7d3t1',x:'Expressway log analysis: xcp_logger, syslog, advanced debug levels',tags:['cisco']},
+      {id:'w7d3t2',x:'CUCM CTL/ITL mismatch: phone shows "No Trust List" — cause and fix procedure',tags:['cisco']},
+      {id:'w7d3t3',x:'SIP TLS handshake debugging: openssl s_client syntax, certificate chain verification steps',tags:['devnet']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Lab',d:'90 min',tasks:[
+      {id:'w7d3t4',x:'Simulate ITL mismatch: change CUCM hostname and observe phone behaviour.',tags:['lab']},
+      {id:'w7d3t5',x:'Run openssl s_client -connect expressway-e:5061 and verify certificate chain.',tags:['lab']},
+    ]},
+   ],
+   res:['Expressway Troubleshoot Guide','CTL/ITL TAC Tech Notes','Cisco UC Security Troubleshoot Guide'],
+   tip:'Certificate errors are consistently in top 5 UC TAC categories. Know the ITL/CTL fix flow cold.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Domain 6 Troubleshooting Scenarios & Debug Commands',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory + Scenarios',d:'90 min',tasks:[
+      {id:'w7d4t0',x:'IOS voice debug commands: debug ccsip messages, debug voip ccapi inout, debug isdn q931',tags:['cisco']},
+      {id:'w7d4t1',x:'Scenario: PSTN call fails with 503. Trace through CUCM → CUBE → provider. Find the issue.',tags:['cisco']},
+      {id:'w7d4t2',x:'Scenario: Jabber can\'t log in from external network. MRA troubleshooting flow.',tags:['cisco']},
+      {id:'w7d4t3',x:'Scenario: voicemail MWI not turning off. CUC → CUCM troubleshooting flow.',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Troubleshoot Lab',d:'90 min',tasks:[
+      {id:'w7d4t4',x:'Broken dial plan lab: given a misconfigured CUCM — find and fix CSS/partition/route pattern issue.',tags:['lab']},
+      {id:'w7d4t5',x:'Create troubleshooting cheat sheet: top 10 UC issues + fix steps (keep for exam day).',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco CUCM Troubleshooting Guide','IOS Voice Debug Reference','CiscoLive BRKUCC-2xxx sessions'],
+   tip:'Scenario questions test application, not recall. Start with the symptom, work backwards. Your TAC instinct is your biggest advantage.',
+  },
+  {dow:5,type:'study',hours:3,topic:'Infrastructure Design Deep Dive: SRND & Sizing',
+   sessions:[
+    {t:'study',i:'📖',n:'Theory',d:'90 min',tasks:[
+      {id:'w7d5t0',x:'CUCM OVA sizing: Small (2500), Medium (7500), Large (30000) phones — CPU/RAM per type',tags:['cisco']},
+      {id:'w7d5t1',x:'Site design decision tree: user count → WAN BW → latency → design pattern selection',tags:['cisco']},
+      {id:'w7d5t2',x:'PSTN trunk sizing: Erlang B tables, GoS 1% vs 0.1%, overdimensioning rules',tags:['cisco']},
+      {id:'w7d5t3',x:'Redundancy design: geo-redundant clusters, subscriber/publisher placement across data centres',tags:['cisco']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Design Practice',d:'90 min',tasks:[
+      {id:'w7d5t4',x:'Design exercise: enterprise with 5000 users, HQ + 4 sites. Produce full design rationale.',tags:['lab']},
+      {id:'w7d5t5',x:'Compare HA options: single cluster geo-redundant vs separate clusters with ICT.',tags:['lab']},
+    ]},
+   ],
+   res:['Cisco Collab SRND Library','CUCM Virtualisation Config Guide','Cisco Design Zone for UC'],
+   tip:'Design questions require identifying the KEY constraint in the scenario (latency, BW, user count) and mapping it to the correct decision.',
+  },
+  {dow:6,type:'study',hours:3,topic:'Full Practice Exam #2 + Phase 3 Completion',
+   sessions:[
+    {t:'review',i:'🔁',n:'D5+D6 Review',d:'30 min',tasks:[
+      {id:'w7d6t0',x:'30-minute rapid flashcard drill: Domains 5 and 6 only.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Full Mock Exam #2',d:'150 min',tasks:[
+      {id:'w7d6t1',x:'Full 90-question practice exam. Strict 120-minute timer. Exam conditions.',tags:['mock']},
+      {id:'w7d6t2',x:'Target: >72%. Compare to Mock Exam #1 — measure progress per domain.',tags:['mock']},
+      {id:'w7d6t3',x:'Full domain breakdown analysis. Update Phase 4 revision priority list.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim full mode','Measureup','Cisco Press CLCOR Official Cert Guide'],
+   tip:'End of Phase 3. All 6 domains covered. Hitting 70–75% on full mocks = on track. Phase 4 pushes you to 80%+.',
+  },
+ ]
+},
+
+// ─── WEEK 8: May 2–8 ──────────────────────────────────────
+{num:8,phase:'p4',title:'Revision Week 1 — All Domains Sprint',
+ domain:'Revision — Domains 1–6 (no new content)',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'Domain 1+2 Intensive Revision',
+   sessions:[
+    {t:'review',i:'🔁',n:'Domain 1+2 Review',d:'120 min',tasks:[
+      {id:'w8d0t0',x:'Domain 1 revision: CUCM cluster, security (CTL/SRTP), SRST, HA, gateway types',tags:['review']},
+      {id:'w8d0t1',x:'Domain 2 revision: SIP flow/codes, H.323, SCCP, codecs/BW, QoS DSCP, CAC',tags:['review']},
+      {id:'w8d0t2',x:'Create/update 1-page cheat sheet for each domain.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Domain Quiz',d:'60 min',tasks:[
+      {id:'w8d0t3',x:'30-question quiz: Domains 1+2. Under 40 minutes. Target 80%+.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal notes + cheat sheets','Boson domain filter mode'],
+   tip:'Revision phase: no new content. Use your weak-topic list from previous mocks to focus every session.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest.'},
+  {dow:2,type:'study',hours:3,topic:'Domain 3 Intensive Revision',
+   sessions:[
+    {t:'review',i:'🔁',n:'Domain 3 Review',d:'120 min',tasks:[
+      {id:'w8d2t0',x:'CUC: SCCP vs SIP integration, voicemail ports, call handlers, greeting priority order',tags:['review']},
+      {id:'w8d2t1',x:'UCCX: architecture, JTAPI, CSQ, Finesse, licensing tiers',tags:['review']},
+      {id:'w8d2t2',x:'Jabber: service discovery order, config file, MRA dependency on Expressway',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Domain Quiz',d:'60 min',tasks:[
+      {id:'w8d2t3',x:'30-question quiz: Domain 3. Under 40 min. Target 80%+.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal notes','Boson domain filter'],
+   tip:'Domain 3 = 20% of exam. Every extra point here is high-value.',
+  },
+  {dow:3,type:'study',hours:3,topic:'Domain 4+5 Intensive Revision',
+   sessions:[
+    {t:'review',i:'🔁',n:'Domain 4+5 Review',d:'120 min',tasks:[
+      {id:'w8d3t0',x:'Domain 4 (Cloud 12%): Webex architecture, Hybrid Services, CUBE LGW, PSTN options',tags:['review']},
+      {id:'w8d3t1',x:'Domain 5 (Design 17%): design models, CoW RTT rule, Erlang B, CUCM OVA sizing',tags:['review']},
+      {id:'w8d3t2',x:'Cross-domain: Webex Hybrid = D4+D5 overlap. Map architecture decisions.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Domain Quiz',d:'60 min',tasks:[
+      {id:'w8d3t3',x:'30-question quiz: Domains 4+5. Under 40 min. Target 80%+.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal notes','Boson domain filter','Webex official docs'],
+   tip:'Domain 5 design questions need the decision framework: identify the KEY constraint, match to design.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Domain 6 Revision + Full Mock Exam #3',
+   sessions:[
+    {t:'review',i:'🔁',n:'Domain 6 Review',d:'60 min',tasks:[
+      {id:'w8d4t0',x:'Domain 6: upgrade procedure steps, debug commands, troubleshooting scenarios',tags:['review']},
+      {id:'w8d4t1',x:'Scenario drill: 10 symptom→cause→fix cards (registration fail, one-way audio, MWI stuck, MRA fail)',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Full Mock Exam #3',d:'120 min',tasks:[
+      {id:'w8d4t2',x:'Full 90-question exam. 120-min limit. Target: 78%+.',tags:['mock']},
+      {id:'w8d4t3',x:'Compare to Mocks #1 and #2. Document trend. Create final weak-topic priority list.',tags:['mock']},
+    ]},
+   ],
+   res:['Boson ExSim','Measureup'],
+   tip:'78%+ at this point = strong exam track. Below 70% = add 30 min/day next week.',
+  },
+  {dow:5,type:'study',hours:3,topic:'Weak Topic Blitz Day #1',
+   sessions:[
+    {t:'review',i:'🔁',n:'Targeted Revision',d:'180 min',tasks:[
+      {id:'w8d5t0',x:'Attack top 3 weak topics from Mock Exam #3 analysis. Deep review each.',tags:['review']},
+      {id:'w8d5t1',x:'Create additional flashcards for weak topics. Test immediately after creating.',tags:['review']},
+      {id:'w8d5t2',x:'20 targeted questions on weak topics only (Boson topic filter).',tags:['mock']},
+    ]},
+   ],
+   res:['Personal weak-topic list','Boson topic filter','Cisco official docs for specific topics'],
+   tip:'Targeted revision on weak areas is 3–5× more efficient than broad review at this stage.',
+  },
+  {dow:6,type:'study',hours:3,topic:'Command & Config Revision + Lab from Memory',
+   sessions:[
+    {t:'review',i:'🔁',n:'Command Review',d:'90 min',tasks:[
+      {id:'w8d6t0',x:'CUCM CLI: utils service start/stop/restart, show version, utils system switch-version',tags:['review']},
+      {id:'w8d6t1',x:'IOS voice: debug ccsip, debug voip ccapi inout, show dial-peer voice summary',tags:['review']},
+      {id:'w8d6t2',x:'Expressway: xcommand SystemUnit Restart, log collection, status commands',tags:['review']},
+    ]},
+    {t:'lab',i:'⚙️',n:'Memory Lab',d:'90 min',tasks:[
+      {id:'w8d6t3',x:'Without notes: configure CUCM SIP trunk + dial plan from memory.',tags:['lab']},
+      {id:'w8d6t4',x:'Check gaps. These are your remaining knowledge holes.',tags:['lab']},
+    ]},
+   ],
+   res:['Personal command reference card','CUCM CLI Admin Guide'],
+   tip:'What you can build from memory = what you truly know for exam day.',
+  },
+ ]
+},
+
+// ─── WEEK 9: May 9–15 ─────────────────────────────────────
+{num:9,phase:'p4',title:'Revision Week 2 — Targeted Deep Dive',
+ domain:'All Domains — Weakness Elimination',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'Deep Dive: Top Weak Areas (personalised)',
+   sessions:[
+    {t:'review',i:'🔁',n:'Deep Dive',d:'120 min',tasks:[
+      {id:'w9d0t0',x:'Dedicate 2h to your #1 and #2 weak topics from Mock Exam #3 list.',tags:['review']},
+      {id:'w9d0t1',x:'Find a CiscoLive session or Cisco doc on your weakest topic. Watch/read focused.',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Targeted Quiz',d:'60 min',tasks:[
+      {id:'w9d0t2',x:'20 questions on weak topic areas. Aim >85% on these before moving on.',tags:['mock']},
+    ]},
+   ],
+   res:['CiscoLive On-Demand (free)','Cisco Learning Network','Official CLCOR Cert Guide'],
+   tip:'Week 9: targeted, not broad. Invest time where you\'re losing points.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest day. Final stretch — rest matters more now.'},
+  {dow:2,type:'study',hours:3,topic:'SIP Troubleshooting & Protocol Scenario Drill',
+   sessions:[
+    {t:'review',i:'🔁',n:'SIP Review',d:'90 min',tasks:[
+      {id:'w9d2t0',x:'SIP error codes deep revision: scenario for each 4xx — what causes 403, 404, 480, 486, 487',tags:['review']},
+      {id:'w9d2t1',x:'SIP flow revision: REGISTER flow, re-INVITE for hold, REFER for transfer',tags:['review']},
+    ]},
+    {t:'lab',i:'⚙️',n:'PCAP Lab',d:'90 min',tasks:[
+      {id:'w9d2t2',x:'Analyse 3 different SIP PCAPs: identify call result and root cause for each.',tags:['lab']},
+      {id:'w9d2t3',x:'CUCM SDL trace: enable SIP debug, make a call, find INVITE/200 OK in trace.',tags:['lab']},
+    ]},
+   ],
+   res:['RFC 3261','CUCM SIP Troubleshoot Guide','PacketLife.net PCAP library'],
+   tip:'SIP trace reading is a live-skill category. Practice until you identify issues immediately.',
+  },
+  {dow:3,type:'study',hours:3,topic:'Full Mock Exam #4 + Time Strategy',
+   sessions:[
+    {t:'mock',i:'📝',n:'Full Mock Exam #4',d:'150 min',tasks:[
+      {id:'w9d3t0',x:'Full 90-question exam. Different bank from Mock #3. Target: 80%+.',tags:['mock']},
+      {id:'w9d3t1',x:'Time analysis: avg seconds per question. Identify slow topic areas.',tags:['mock']},
+      {id:'w9d3t2',x:'Final weak-topic list: anything below 75% per domain → Week 10 priority.',tags:['mock']},
+    ]},
+    {t:'review',i:'🔁',n:'Post-Exam Review',d:'30 min',tasks:[
+      {id:'w9d3t3',x:'Review wrong answers. Note any final patterns in what you get wrong.',tags:['review']},
+    ]},
+   ],
+   res:['Boson ExSim','Measureup'],
+   tip:'Need 80%+ by now. Cisco passing ~820/1000 (~82%). Aim for 85%+ on practice to have margin.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Design Scenario Drill & Decision Frameworks',
+   sessions:[
+    {t:'review',i:'🔁',n:'Design Frameworks',d:'60 min',tasks:[
+      {id:'w9d4t0',x:'Review all design decision rules: CoW latency, SRST limits, CUCM sizing, Erlang',tags:['review']},
+      {id:'w9d4t1',x:'Memorise decision tree: when to choose each design model (centralised/distributed/CoW)',tags:['review']},
+    ]},
+    {t:'mock',i:'📝',n:'Design Scenarios',d:'120 min',tasks:[
+      {id:'w9d4t2',x:'10 design scenario questions: "Customer needs X — what do you recommend?" Justify each.',tags:['mock']},
+      {id:'w9d4t3',x:'Analyse: what information in each question was the deciding constraint?',tags:['mock']},
+    ]},
+   ],
+   res:['Cisco SRND Library','Boson scenario filter','Official CLCOR book — Design chapter'],
+   tip:'Design questions: find the KEY constraint (latency / BW / user count / budget) → match to design decision. That\'s the whole skill.',
+  },
+  {dow:5,type:'study',hours:3,topic:'Weak Topic Blitz Day #2 + Feynman Technique',
+   sessions:[
+    {t:'review',i:'🔁',n:'Feynman Drill',d:'180 min',tasks:[
+      {id:'w9d5t0',x:'Take each weak topic. Explain it out loud as if teaching a junior engineer.',tags:['review']},
+      {id:'w9d5t1',x:'Where you stumble = where you don\'t truly know. Write notes on those gaps immediately.',tags:['review']},
+      {id:'w9d5t2',x:'20 questions on remaining weak topics after Feynman drill.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal notes','Cisco official docs for gap topics'],
+   tip:'Feynman technique: if you can\'t explain it simply, you don\'t know it. Saying it aloud reveals gaps that silent reading hides.',
+  },
+  {dow:6,type:'study',hours:3,topic:'Full CUC + Expressway Lab from Memory',
+   sessions:[
+    {t:'lab',i:'⚙️',n:'Memory Lab',d:'180 min',tasks:[
+      {id:'w9d6t0',x:'Without notes: configure CUC voicemail integration with CUCM. Verify MWI.',tags:['lab']},
+      {id:'w9d6t1',x:'Without notes: draw and verify Expressway MRA topology — all components and ports.',tags:['lab']},
+      {id:'w9d6t2',x:'Review gaps. These are your real remaining blind spots.',tags:['lab']},
+    ]},
+   ],
+   res:['CUCM lab','CUC lab','DevNet sandbox'],
+   tip:'"Build from memory" = the most honest self-assessment. What you can configure without notes = what you truly own.',
+  },
+ ]
+},
+
+// ─── WEEK 10: May 16–22 ───────────────────────────────────
+{num:10,phase:'p4',title:'Exam Simulation Week — Final Mocks',
+ domain:'Full Exam Simulation + Fine-Tuning',
+ days:[
+  {dow:0,type:'study',hours:3,topic:'Final Weak Area Sprint + Confidence Review',
+   sessions:[
+    {t:'review',i:'🔁',n:'Final Sprint',d:'180 min',tasks:[
+      {id:'w10d0t0',x:'Feynman drill on remaining weak topics from Mock #4. 3h focused.',tags:['review']},
+      {id:'w10d0t1',x:'Review all 6 domain cheat sheets. Update any gaps found.',tags:['review']},
+      {id:'w10d0t2',x:'30 questions on topics where you score 90%+ — reinforce confidence.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal cheat sheets','Personal weak-topic list'],
+   tip:'Confidence is a real performance factor. Remind yourself: 200+ hours studied, you work with this tech daily. You are prepared.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Full rest. You\'ve earned it.'},
+  {dow:2,type:'study',hours:3,topic:'Full Mock Exam #5 — Simulated Exam Day',
+   sessions:[
+    {t:'mock',i:'📝',n:'Simulated Exam #5',d:'150 min',tasks:[
+      {id:'w10d2t0',x:'Set up exactly like real exam: no phone, no notes, 120 min, 90 questions.',tags:['mock']},
+      {id:'w10d2t1',x:'Practice exam technique: answer known → flag uncertain → skip unknown → return.',tags:['mock']},
+      {id:'w10d2t2',x:'Target: 82%+. Document score and domain breakdown.',tags:['mock']},
+    ]},
+    {t:'review',i:'🔁',n:'Post-Exam',d:'30 min',tasks:[
+      {id:'w10d2t3',x:'Review wrong answers only. Note final gaps for last study days.',tags:['review']},
+    ]},
+   ],
+   res:['Boson ExSim','Measureup full exam'],
+   tip:'Exam strategy: answer known, flag uncertain, skip unknown. Never leave blank — guess if needed, no negative marking.',
+  },
+  {dow:3,type:'study',hours:3,topic:'SIP + QoS + Security Final Blitz',
+   sessions:[
+    {t:'review',i:'🔁',n:'High-Value Topics',d:'180 min',tasks:[
+      {id:'w10d3t0',x:'SIP: all response codes, INVITE flow, SDP, Early vs Delayed Offer, OPTIONS ping',tags:['review']},
+      {id:'w10d3t1',x:'QoS: DSCP values (EF/AF41/CS3/CS2), Regions/Locations, CAC, BW calculations',tags:['review']},
+      {id:'w10d3t2',x:'Security: CTL/ITL, SRTP, Mixed Mode, TLS — when and why for each',tags:['review']},
+    ]},
+   ],
+   res:['Personal cheat sheets','Boson quick quiz'],
+   tip:'SIP + QoS + Security ≈ 35% of exam combined. These three = high-density ROI for final days.',
+  },
+  {dow:4,type:'study',hours:3,topic:'Final Full Mock Exam #6 + Last Analysis',
+   sessions:[
+    {t:'mock',i:'📝',n:'Final Mock Exam #6',d:'150 min',tasks:[
+      {id:'w10d4t0',x:'Full 90-question exam. Final full simulation. Target: 83–85%.',tags:['mock']},
+      {id:'w10d4t1',x:'This is your LAST full mock. After this — only light review.',tags:['mock']},
+    ]},
+    {t:'review',i:'🔁',n:'Final Adjustment',d:'30 min',tasks:[
+      {id:'w10d4t2',x:'Review wrong answers one last time. Note any final critical gaps.',tags:['review']},
+    ]},
+   ],
+   res:['Boson ExSim','Measureup'],
+   tip:'After this exam — stop full mocks. Brain needs consolidation, not more input. Light review only from here.',
+  },
+  {dow:5,type:'study',hours:2,topic:'Exam Strategy + Light Prep',
+   sessions:[
+    {t:'review',i:'🔁',n:'Strategy Review',d:'120 min',tasks:[
+      {id:'w10d5t0',x:'Review exam strategy: question flagging, ~80s per question average, elimination technique',tags:['review']},
+      {id:'w10d5t1',x:'20 light questions — strong topics only. End on a confident note.',tags:['mock']},
+      {id:'w10d5t2',x:'Confirm exam booking: Pearson VUE location or online. Check ID requirements.',tags:['review']},
+    ]},
+   ],
+   res:['Pearson VUE exam scheduling','Cisco Certification exam policies'],
+   tip:'Logistics matter: confirm booking, know the location/login process, arrive or log in 15 min early.',
+  },
+  {dow:6,type:'study',hours:1,topic:'Cheat Sheet Speed-Run + Rest',
+   sessions:[
+    {t:'review',i:'🔁',n:'Speed-Run',d:'60 min',tasks:[
+      {id:'w10d6t0',x:'Speed-run all 6 domain cheat sheets. No new content. Reinforcement only.',tags:['review']},
+      {id:'w10d6t1',x:'Read personal troubleshooting cheat sheet one last time.',tags:['review']},
+    ]},
+   ],
+   res:['Personal cheat sheets'],
+   tip:'Reduce volume, maintain sharpness. Then rest.',
+  },
+ ]
+},
+
+// ─── WEEK 11: May 23–29 ───────────────────────────────────
+{num:11,phase:'p4',title:'Exam Week — Final Countdown',
+ domain:'Last-Minute Review + Exam Day (May 30)',
+ days:[
+  {dow:0,type:'study',hours:2,topic:'Light Review: Protocols + Ports Revision',
+   sessions:[
+    {t:'review',i:'🔁',n:'Light Review',d:'120 min',tasks:[
+      {id:'w11d0t0',x:'Speed-run: SIP codes, DSCP values, Expressway MRA ports (8443/5061/3478/443)',tags:['review']},
+      {id:'w11d0t1',x:'20 questions — known-good topics only. Build momentum.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal cheat sheets'],
+   tip:'Exam week: no new topics. Brain is in consolidation mode.',
+  },
+  {dow:1,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Full rest. Sleep 8h. Protect your mental energy.'},
+  {dow:2,type:'study',hours:2,topic:'Final Critical Topics: CTL/SRTP + CUC + MRA',
+   sessions:[
+    {t:'review',i:'🔁',n:'Critical Review',d:'120 min',tasks:[
+      {id:'w11d2t0',x:'CUCM Security: CTL/ITL model, SRTP enabling, Mixed Mode — final pass',tags:['review']},
+      {id:'w11d2t1',x:'CUC integration: greeting priority, voicemail port types, MWI — final pass',tags:['review']},
+      {id:'w11d2t2',x:'Expressway MRA: ports (8443/5061/3478/443), ICE/TURN, traversal zone — final pass',tags:['review']},
+    ]},
+   ],
+   res:['Personal cheat sheets'],
+   tip:'Only topics where knowing them makes a decisive exam difference.',
+  },
+  {dow:3,type:'rest',hours:0,topic:'Full Rest Day 🌿',sessions:[],res:[],tip:'Rest day. 72h before exam. Sleep well, eat well.'},
+  {dow:4,type:'study',hours:1,topic:'48h Pre-Exam: Command Card + Light Scan',
+   sessions:[
+    {t:'review',i:'🔁',n:'Pre-Exam Scan',d:'60 min',tasks:[
+      {id:'w11d4t0',x:'Quick scan: command reference card, key protocol ports, domain cheat sheets',tags:['review']},
+      {id:'w11d4t1',x:'10 questions — highest confidence topics only. End feeling strong.',tags:['mock']},
+    ]},
+   ],
+   res:['Personal cheat sheets'],
+   tip:'48h out: light reading only. No hard problems, no new content.',
+  },
+  {dow:5,type:'rest',hours:0,topic:'Rest Day — 24h Before Exam',sessions:[],res:[],
+   tip:'Final rest day. Prepare your exam ID. If online exam: run Pearson VUE system test. Early bedtime tonight.',
+  },
+  {dow:6,type:'rest',hours:0,topic:'🎯 EXAM DAY — 30 May 2026',sessions:[],res:[],
+   tip:'<strong>Exam Day:</strong> Arrive/log in 15 min early. Read each question carefully. Flag uncertain ones. Never leave blank. You\'ve prepared for this. Trust your knowledge.',
+  },
+ ]
+},
+];
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+let ST = {};
+let CW = 1; // current week
+let openDay = null;
+
+function load() {
+  try { const s=localStorage.getItem('clcor_v3'); if(s) ST=JSON.parse(s); } catch(e){}
+}
+function save() {
+  try { localStorage.setItem('clcor_v3',JSON.stringify(ST)); } catch(e){}
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>t.classList.remove('show'),1400);
+}
+
+// ─────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────
+function weekTasks(w) {
+  let tot=0,don=0;
+  w.days.forEach(d=>d.sessions.forEach(s=>s.tasks.forEach(t=>{tot++;if(ST[t.id])don++;})));
+  return {tot,don};
+}
+
+function globalStats() {
+  let tot=0,don=0,hrs=0;
+  WEEKS.forEach(w=>{
+    const {tot:t,don:d}=weekTasks(w);
+    tot+=t;don+=d;
+    w.days.forEach(day=>{
+      if(day.type!=='rest'){
+        const allDone=day.sessions.every(s=>s.tasks.every(t=>ST[t.id]));
+        if(allDone)hrs+=day.hours;
+      }
+    });
+  });
+  return {tot,don,hrs};
+}
+
+function phaseOf(wNum) { return PHASES.find(p=>p.weeks.includes(wNum)); }
+
+function dayProgress(day) {
+  if(day.sessions.length===0) return {tot:0,don:0};
+  let tot=0,don=0;
+  day.sessions.forEach(s=>s.tasks.forEach(t=>{tot++;if(ST[t.id])don++;}));
+  return {tot,don};
+}
+
+// ─────────────────────────────────────────
+// SIDEBAR
+// ─────────────────────────────────────────
+function buildSidebar() {
+  const {tot,don,hrs}=globalStats();
+  const pct=tot>0?Math.round(don/tot*100):0;
+  document.getElementById('sbpct').textContent=pct+'%';
+  document.getElementById('sbfill').style.width=pct+'%';
+  document.getElementById('sbtasks').textContent=don;
+  document.getElementById('sbhours').textContent=hrs+'h';
+
+  const wn=document.getElementById('wn');
+  wn.innerHTML='';
+  PHASES.forEach(ph=>{
+    const sec=document.createElement('div');
+    sec.className='wn-ph';
+    sec.textContent=ph.label+' — '+ph.name.split(' — ')[0];
+    wn.appendChild(sec);
+    ph.weeks.forEach(wNum=>{
+      const w=WEEKS.find(x=>x.num===wNum);
+      if(!w) return;
+      const {tot,don}=weekTasks(w);
+      const pct=tot>0?Math.round(don/tot*100):0;
+      const item=document.createElement('div');
+      item.className='wn-item ph'+ph.id.replace('p','')+(CW===wNum?' wna':'');
+      item.innerHTML=`<div class="wn-dot"></div><span>W${wNum} · ${w.title.split(':')[0].slice(0,24)}</span><span class="wn-pct">${pct}%</span>`;
+      item.addEventListener('click',()=>{ CW=wNum; openDay=null; render(); });
+      wn.appendChild(item);
+    });
+  });
+}
+
+// ─────────────────────────────────────────
+// COUNTDOWN
+// ─────────────────────────────────────────
+function updateCountdown() {
+  const now=new Date();
+  const diff=Math.ceil((EXAM_DATE-now)/(1000*60*60*24));
+  document.getElementById('cd').textContent=Math.max(0,diff);
+  document.getElementById('tb-days').textContent=Math.max(0,diff)+' days left';
+}
+
+// ─────────────────────────────────────────
+// RENDER WEEK
+// ─────────────────────────────────────────
+function render() {
+  const w=WEEKS.find(x=>x.num===CW);
+  if(!w) return;
+  const ph=phaseOf(CW);
+
+  // Topbar
+  document.getElementById('tbtitle').innerHTML=`Week ${CW} <span>${w.title}</span>`;
+  document.getElementById('tb-wnum').textContent=`Week ${CW} / 11`;
+  document.getElementById('tb-phase').textContent=ph.label;
+  document.getElementById('btn-prev').disabled=CW===1;
+  document.getElementById('btn-next').disabled=CW===11;
+
+  buildSidebar();
+
+  const content=document.getElementById('content');
+  content.innerHTML='';
+
+  // Phase banner
+  const {tot,don}=weekTasks(w);
+  const wPct=tot>0?Math.round(don/tot*100):0;
+  const studyDays=w.days.filter(d=>d.type!=='rest').length;
+
+  const banner=document.createElement('div');
+  banner.className='phase-banner';
+  banner.innerHTML=`
+    <div class="pb-color" style="background:${ph.color}"></div>
+    <div>
+      <div class="pb-sub" style="color:${ph.color}">${ph.label} — ${ph.name}</div>
+      <div class="pb-title">${w.title}</div>
+      <div class="pb-desc">${ph.desc}</div>
+    </div>
+    <div class="pb-right">
+      <div class="pb-domain">${w.domain}</div>
+    </div>`;
+  content.appendChild(banner);
+
+  // Domain bar
+  const domBar=document.createElement('div');
+  domBar.className='dom-bar';
+  DOMAINS.forEach(d=>{
+    const seg=document.createElement('div');
+    seg.className='dom-seg'+(ph.domains.includes(d.id)?' on':'');
+    seg.style.cssText=`flex:${d.w};background:${d.c}`;
+    seg.title=`${d.name} (${d.w}%)`;
+    domBar.appendChild(seg);
+  });
+  content.appendChild(domBar);
+
+  // Week stats
+  const stats=document.createElement('div');
+  stats.className='wk-stats';
+  [
+    {v:studyDays,l:'Study Days',c:'var(--blue)'},
+    {v:w.days.reduce((a,d)=>a+d.hours,0)+'h',l:'Total Hours',c:'var(--teal)'},
+    {v:don+'/'+tot,l:'Tasks',c:'var(--green)'},
+    {v:wPct+'%',l:'Week Progress',c:'var(--amber)'},
+    {v:'Wk '+CW+'/11',l:'Overall',c:'var(--violet)'},
+  ].forEach(s=>{
+    stats.innerHTML+=`<div class="wk-stat"><div class="wk-stat-v" style="color:${s.c}">${s.v}</div><div class="wk-stat-l">${s.l}</div></div>`;
+  });
+  content.appendChild(stats);
+
+  // Week overview mini-calendar
+  const wo=document.createElement('div');
+  wo.className='wk-overview';
+  wo.innerHTML='<div class="wo-title">📅 Week at a Glance — click a day to jump to it</div>';
+  const wog=document.createElement('div');
+  wog.className='wo-grid';
+  const weekIdx=CW-1;
+  w.days.forEach((day,di)=>{
+    const {tot,don}=dayProgress(day);
+    const allDone=tot>0&&don===tot;
+    const today=isToday(weekIdx,di);
+    const isOpen=openDay===`${CW}_${di}`;
+    const d=document.createElement('div');
+    d.className='wo-day'+(day.type==='rest'?' wo-rest':'')+(allDone?' wo-done':'')+(today?' wo-today':'')+(isOpen?' wo-open':'');
+    d.innerHTML=`
+      <div class="wo-dow">${DOW[di]}</div>
+      <div class="wo-date">${dateStr(weekIdx,di)}</div>
+      <div class="wo-icon">${day.type==='rest'?'🌿':tot===0?'—':allDone?'✅':'📖'}</div>
+      ${tot>0?`<div class="wo-p"><div class="wo-pf" style="width:${Math.round(don/tot*100)}%"></div></div>`:''}`;
+    if(day.type!=='rest'){
+      d.addEventListener('click',()=>{
+        openDay=openDay===`${CW}_${di}`?null:`${CW}_${di}`;
+        render();
+        setTimeout(()=>{
+          const ep=document.getElementById('ep_'+CW+'_'+di);
+          if(ep) ep.scrollIntoView({behavior:'smooth',block:'nearest'});
+        },50);
+      });
+    }
+    wog.appendChild(d);
+  });
+  wo.appendChild(wog);
+  content.appendChild(wo);
+
+  // Day grid
+  const grid=document.createElement('div');
+  grid.className='day-grid';
+  w.days.forEach((day,di)=>{
+    grid.appendChild(buildDayCard(day,di,weekIdx,CW));
+    // Expanded panel inserted after the last card in grid row
+  });
+  content.appendChild(grid);
+
+  // Expanded panel (outside grid, below)
+  const epHolder=document.createElement('div');
+  epHolder.id='ep-holder';
+  w.days.forEach((day,di)=>{
+    const ep=buildExpandPanel(day,di,weekIdx,CW);
+    epHolder.appendChild(ep);
+  });
+  content.appendChild(epHolder);
+}
+
+// ─────────────────────────────────────────
+// DAY CARD
+// ─────────────────────────────────────────
+function buildDayCard(day,di,weekIdx,wNum) {
+  const {tot,don}=dayProgress(day);
+  const allDone=tot>0&&don===tot;
+  const today=isToday(weekIdx,di);
+  const isOpen=openDay===`${wNum}_${di}`;
+  const pct=tot>0?Math.round(don/tot*100):0;
+
+  const card=document.createElement('div');
+  card.className='dc'+(day.type==='rest'?' dc-rest':'')+(allDone?' dc-done':'')+(isOpen?' dc-open':'')+(today?' dc-today':'');
+  if(day.type==='exam') card.classList.add('dc-exam');
+
+  if(day.type==='rest'){
+    card.innerHTML=`
+      <div class="dc-head"><span class="dc-dow">${DOW[di]} · ${dateStr(weekIdx,di)}</span></div>
+      <div class="dc-body">
+        <div class="dc-topic">${day.topic}</div>
+        <div class="dc-hrs">No study</div>
+      </div>`;
+    return card;
+  }
+
+  // Mini tasks (first 4 across all sessions)
+  let miniTasks=[];
+  day.sessions.forEach(s=>s.tasks.forEach(t=>{if(miniTasks.length<4)miniTasks.push(t);}));
+
+  card.innerHTML=`
+    <div class="dc-head">
+      <span class="dc-dow">${DOW[di]} · ${dateStr(weekIdx,di)}</span>
+      <div class="dc-circle">${allDone?'✓':''}</div>
+    </div>
+    <div class="dc-body">
+      <div class="dc-topic">${day.topic}</div>
+      <div class="dc-hrs">${day.hours}h · ${don}/${tot} tasks</div>
+      <div class="dc-mini">
+        ${miniTasks.map(t=>`
+          <div class="dc-mi ${ST[t.id]?'done':''}" data-tid="${t.id}">
+            <div class="dc-mb">${ST[t.id]?'✓':''}</div>
+            <span class="dc-mt">${t.x.slice(0,42)}${t.x.length>42?'…':''}</span>
+          </div>`).join('')}
+      </div>
+      <div class="dc-prog"><div class="dc-prog-f" style="width:${pct}%"></div></div>
+    </div>`;
+
+  // Click card body → open expand panel
+  card.addEventListener('click',(e)=>{
+    if(e.target.closest('.dc-circle')){
+      // Mark all / unmark all
+      const done=!allDone;
+      day.sessions.forEach(s=>s.tasks.forEach(t=>{ST[t.id]=done;}));
+      save();render();return;
+    }
+    if(e.target.closest('.dc-mi')){
+      const tid=e.target.closest('.dc-mi').dataset.tid;
+      if(tid){ST[tid]=!ST[tid];save();render();return;}
+    }
+    openDay=openDay===`${wNum}_${di}`?null:`${wNum}_${di}`;
+    render();
+    setTimeout(()=>{
+      const ep=document.getElementById('ep_'+wNum+'_'+di);
+      if(ep&&ep.classList.contains('open')) ep.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },50);
+  });
+
+  return card;
+}
+
+// ─────────────────────────────────────────
+// EXPAND PANEL
+// ─────────────────────────────────────────
+function buildExpandPanel(day,di,weekIdx,wNum) {
+  const isOpen=openDay===`${wNum}_${di}`;
+  const {tot,don}=dayProgress(day);
+
+  const ep=document.createElement('div');
+  ep.className='ep'+(isOpen?' open':'');
+  ep.id=`ep_${wNum}_${di}`;
+
+  if(!isOpen) return ep;
+
+  ep.innerHTML=`
+    <div class="ep-head">
+      <div class="ep-htxt">
+        <div class="ep-title">${day.topic}</div>
+        <div class="ep-meta">
+          <span class="tb-badge b-bl">${DOW[di]} · ${dateStr(weekIdx,di)}</span>
+          <span class="tb-badge b-gn">${day.hours}h</span>
+          <span class="tb-badge b-am">${don}/${tot} tasks</span>
+        </div>
+      </div>
+      <div class="ep-x" id="epx_${wNum}_${di}">✕</div>
+    </div>
+    <div class="ep-sessions">
+      ${day.sessions.map(s=>`
+        <div class="ep-sess">
+          <div class="ep-sh">
+            <div class="ep-si si-${s.t}">${s.i}</div>
+            <span class="ep-sname">${s.n}</span>
+            <span class="ep-sdur">${s.d}</span>
+          </div>
+          <ul class="ep-tasks">
+            ${s.tasks.map(t=>`
+              <li class="ep-t ${ST[t.id]?'done':''}" data-eptid="${t.id}">
+                <div class="ep-tb">${ST[t.id]?'✓':''}</div>
+                <div>
+                  <span class="ep-txt">${t.x}</span>
+                  <div class="ep-tags">${t.tags.map(g=>`<span class="etag etag-${g}">${g}</span>`).join('')}</div>
+                </div>
+              </li>`).join('')}
+          </ul>
+        </div>`).join('')}
+    </div>
+    ${day.res.length?`
+    <div class="ep-res">
+      <div class="ep-rl">📚 Resources</div>
+      <div class="ep-rg">${day.res.map(r=>`<span class="ep-ri">↗ ${r}</span>`).join('')}</div>
+    </div>`:''}
+    <div class="ep-tip">💡 <strong>Tutor Tip:</strong> ${day.tip}</div>
+    <div class="ep-notes">
+      <div class="ep-nl">📝 Your Notes</div>
+      <textarea class="ep-ta" data-nid="${wNum}_${di}" placeholder="Key takeaways, commands, config snippets…">${ST['notes_'+wNum+'_'+di]||''}</textarea>
+
+```
+</div>`;
+```
+
+// Close button
+ep.querySelector(`#epx_${wNum}_${di}`).addEventListener(‘click’,()=>{
+openDay=null;render();
+});
+
+// Task checkboxes
+ep.querySelectorAll(’.ep-t’).forEach(el=>{
+el.addEventListener(‘click’,()=>{
+const id=el.dataset.eptid;
+ST[id]=!ST[id];
+save();render();
+});
+});
+
+// Notes
+ep.querySelector(’.ep-ta’).addEventListener(‘input’,e=>{
+ST[‘notes_’+wNum+’_’+di]=e.target.value;
+save();
+});
+
+return ep;
+}
+
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+function detectCurrentWeek() {
+const today=new Date();
+let found=1;
+WEEK_STARTS.forEach((ws,i)=>{
+const s=new Date(ws);
+const e=new Date(s);
+e.setDate(e.getDate()+6);
+if(today>=s&&today<=e) found=i+1;
+else if(today>e&&i<10) found=Math.min(i+2,11);
+});
+return found;
+}
+
+load();
+CW=detectCurrentWeek();
+updateCountdown();
+setInterval(updateCountdown,60000);
+
+document.getElementById(‘btn-prev’).addEventListener(‘click’,()=>{
+if(CW>1){CW–;openDay=null;render();}
+});
+document.getElementById(‘btn-next’).addEventListener(‘click’,()=>{
+if(CW<11){CW++;openDay=null;render();}
+});
+
+render();
+</script>
+
+</body>
+</html>
