@@ -267,6 +267,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="toast" id="toast">✓ Saved</div>
 
 <script>
+
 // ─────────────────────────────────────────
 // DATA
 // ─────────────────────────────────────────
@@ -1370,416 +1371,635 @@ const WEEKS = [
 // ─────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────
-let ST = {};
-let CW = 1; // current week
-let openDay = null;
+var ST = {};
+var CW = 1;
+var openDay = null;
 
 function load() {
-  try { const s=localStorage.getItem('clcor_v3'); if(s) ST=JSON.parse(s); } catch(e){}
+  try {
+    var s = localStorage.getItem('clcor_v3');
+    if (s) ST = JSON.parse(s);
+  } catch(e) {}
 }
+
 function save() {
-  try { localStorage.setItem('clcor_v3',JSON.stringify(ST)); } catch(e){}
-  const t=document.getElementById('toast');
+  try { localStorage.setItem('clcor_v3', JSON.stringify(ST)); } catch(e) {}
+  var t = document.getElementById('toast');
+  if (!t) return;
   t.classList.add('show');
   clearTimeout(t._tid);
-  t._tid=setTimeout(()=>t.classList.remove('show'),1400);
+  t._tid = setTimeout(function() { t.classList.remove('show'); }, 1400);
 }
 
 // ─────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────
+function el(tag, cls, txt) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt !== undefined) e.textContent = txt;
+  return e;
+}
+
 function weekTasks(w) {
-  let tot=0,don=0;
-  w.days.forEach(d=>d.sessions.forEach(s=>s.tasks.forEach(t=>{tot++;if(ST[t.id])don++;})));
-  return {tot,don};
+  var tot = 0, don = 0;
+  for (var i = 0; i < w.days.length; i++) {
+    var d = w.days[i];
+    for (var j = 0; j < d.sessions.length; j++) {
+      var s = d.sessions[j];
+      for (var k = 0; k < s.tasks.length; k++) {
+        tot++;
+        if (ST[s.tasks[k].id]) don++;
+      }
+    }
+  }
+  return { tot: tot, don: don };
 }
 
 function globalStats() {
-  let tot=0,don=0,hrs=0;
-  WEEKS.forEach(w=>{
-    const {tot:t,don:d}=weekTasks(w);
-    tot+=t;don+=d;
-    w.days.forEach(day=>{
-      if(day.type!=='rest'){
-        const allDone=day.sessions.every(s=>s.tasks.every(t=>ST[t.id]));
-        if(allDone)hrs+=day.hours;
+  var tot = 0, don = 0, hrs = 0;
+  for (var wi = 0; wi < WEEKS.length; wi++) {
+    var w = WEEKS[wi];
+    var wt = weekTasks(w);
+    tot += wt.tot; don += wt.don;
+    for (var di = 0; di < w.days.length; di++) {
+      var day = w.days[di];
+      if (day.type !== 'rest') {
+        var allDone = true;
+        if (day.sessions.length === 0) { allDone = false; }
+        for (var si = 0; si < day.sessions.length; si++) {
+          for (var ti = 0; ti < day.sessions[si].tasks.length; ti++) {
+            if (!ST[day.sessions[si].tasks[ti].id]) { allDone = false; break; }
+          }
+          if (!allDone) break;
+        }
+        if (allDone && day.sessions.length > 0) hrs += day.hours;
       }
-    });
-  });
-  return {tot,don,hrs};
+    }
+  }
+  return { tot: tot, don: don, hrs: hrs };
 }
 
-function phaseOf(wNum) { return PHASES.find(p=>p.weeks.includes(wNum)); }
+function phaseOf(wNum) {
+  for (var i = 0; i < PHASES.length; i++) {
+    if (PHASES[i].weeks.indexOf(wNum) !== -1) return PHASES[i];
+  }
+  return PHASES[0];
+}
 
 function dayProgress(day) {
-  if(day.sessions.length===0) return {tot:0,don:0};
-  let tot=0,don=0;
-  day.sessions.forEach(s=>s.tasks.forEach(t=>{tot++;if(ST[t.id])don++;}));
-  return {tot,don};
-}
-
-// ─────────────────────────────────────────
-// SIDEBAR
-// ─────────────────────────────────────────
-function buildSidebar() {
-  const {tot,don,hrs}=globalStats();
-  const pct=tot>0?Math.round(don/tot*100):0;
-  document.getElementById('sbpct').textContent=pct+'%';
-  document.getElementById('sbfill').style.width=pct+'%';
-  document.getElementById('sbtasks').textContent=don;
-  document.getElementById('sbhours').textContent=hrs+'h';
-
-  const wn=document.getElementById('wn');
-  wn.innerHTML='';
-  PHASES.forEach(ph=>{
-    const sec=document.createElement('div');
-    sec.className='wn-ph';
-    sec.textContent=ph.label+' — '+ph.name.split(' — ')[0];
-    wn.appendChild(sec);
-    ph.weeks.forEach(wNum=>{
-      const w=WEEKS.find(x=>x.num===wNum);
-      if(!w) return;
-      const {tot,don}=weekTasks(w);
-      const pct=tot>0?Math.round(don/tot*100):0;
-      const item=document.createElement('div');
-      item.className='wn-item ph'+ph.id.replace('p','')+(CW===wNum?' wna':'');
-      item.innerHTML=`<div class="wn-dot"></div><span>W${wNum} · ${w.title.split(':')[0].slice(0,24)}</span><span class="wn-pct">${pct}%</span>`;
-      item.addEventListener('click',()=>{ CW=wNum; openDay=null; render(); });
-      wn.appendChild(item);
-    });
-  });
+  var tot = 0, don = 0;
+  for (var i = 0; i < day.sessions.length; i++) {
+    for (var j = 0; j < day.sessions[i].tasks.length; j++) {
+      tot++;
+      if (ST[day.sessions[i].tasks[j].id]) don++;
+    }
+  }
+  return { tot: tot, don: don };
 }
 
 // ─────────────────────────────────────────
 // COUNTDOWN
 // ─────────────────────────────────────────
 function updateCountdown() {
-  const now=new Date();
-  const diff=Math.ceil((EXAM_DATE-now)/(1000*60*60*24));
-  document.getElementById('cd').textContent=Math.max(0,diff);
-  document.getElementById('tb-days').textContent=Math.max(0,diff)+' days left';
+  var now = new Date();
+  var diff = Math.ceil((EXAM_DATE - now) / (1000 * 60 * 60 * 24));
+  var v = Math.max(0, diff);
+  var cdEl = document.getElementById('cd');
+  var tbDays = document.getElementById('tb-days');
+  if (cdEl) cdEl.textContent = v;
+  if (tbDays) tbDays.textContent = v + ' days left';
+}
+
+// ─────────────────────────────────────────
+// SIDEBAR
+// ─────────────────────────────────────────
+function buildSidebar() {
+  var gs = globalStats();
+  var pct = gs.tot > 0 ? Math.round(gs.don / gs.tot * 100) : 0;
+
+  var sbpct = document.getElementById('sbpct');
+  var sbfill = document.getElementById('sbfill');
+  var sbtasks = document.getElementById('sbtasks');
+  var sbhours = document.getElementById('sbhours');
+  if (sbpct) sbpct.textContent = pct + '%';
+  if (sbfill) sbfill.style.width = pct + '%';
+  if (sbtasks) sbtasks.textContent = gs.don;
+  if (sbhours) sbhours.textContent = gs.hrs + 'h';
+
+  var wn = document.getElementById('wn');
+  if (!wn) return;
+  wn.innerHTML = '';
+
+  for (var pi = 0; pi < PHASES.length; pi++) {
+    var ph = PHASES[pi];
+    var sec = el('div', 'wn-ph', ph.label + ' - ' + ph.name.split(' - ')[0].split(' -- ')[0].split('\u2014')[0].trim());
+    wn.appendChild(sec);
+
+    for (var wi = 0; wi < ph.weeks.length; wi++) {
+      var wNum = ph.weeks[wi];
+      var w = null;
+      for (var i = 0; i < WEEKS.length; i++) { if (WEEKS[i].num === wNum) { w = WEEKS[i]; break; } }
+      if (!w) continue;
+
+      var wt = weekTasks(w);
+      var wpct = wt.tot > 0 ? Math.round(wt.don / wt.tot * 100) : 0;
+      var phNum = ph.id.replace('p', '');
+
+      var item = el('div', 'wn-item ph' + phNum + (CW === wNum ? ' wna' : ''));
+      var dot = el('div', 'wn-dot');
+      var label = el('span', '', 'W' + wNum + ' \u00b7 ' + w.title.slice(0, 22));
+      var pctSpan = el('span', 'wn-pct', wpct + '%');
+
+      item.appendChild(dot);
+      item.appendChild(label);
+      item.appendChild(pctSpan);
+
+      (function(num) {
+        item.addEventListener('click', function() {
+          CW = num; openDay = null; render();
+        });
+      })(wNum);
+
+      wn.appendChild(item);
+    }
+  }
 }
 
 // ─────────────────────────────────────────
 // RENDER WEEK
 // ─────────────────────────────────────────
 function render() {
-  const w=WEEKS.find(x=>x.num===CW);
-  if(!w) return;
-  const ph=phaseOf(CW);
+  try {
+    var w = null;
+    for (var i = 0; i < WEEKS.length; i++) { if (WEEKS[i].num === CW) { w = WEEKS[i]; break; } }
+    if (!w) { CW = 1; for (var i = 0; i < WEEKS.length; i++) { if (WEEKS[i].num === 1) { w = WEEKS[i]; break; } } }
+    if (!w) return;
 
-  // Topbar
-  document.getElementById('tbtitle').innerHTML=`Week ${CW} <span>${w.title}</span>`;
-  document.getElementById('tb-wnum').textContent=`Week ${CW} / 11`;
-  document.getElementById('tb-phase').textContent=ph.label;
-  document.getElementById('btn-prev').disabled=CW===1;
-  document.getElementById('btn-next').disabled=CW===11;
+    var ph = phaseOf(CW);
 
-  buildSidebar();
-
-  const content=document.getElementById('content');
-  content.innerHTML='';
-
-  // Phase banner
-  const {tot,don}=weekTasks(w);
-  const wPct=tot>0?Math.round(don/tot*100):0;
-  const studyDays=w.days.filter(d=>d.type!=='rest').length;
-
-  const banner=document.createElement('div');
-  banner.className='phase-banner';
-  banner.innerHTML=`
-    <div class="pb-color" style="background:${ph.color}"></div>
-    <div>
-      <div class="pb-sub" style="color:${ph.color}">${ph.label} — ${ph.name}</div>
-      <div class="pb-title">${w.title}</div>
-      <div class="pb-desc">${ph.desc}</div>
-    </div>
-    <div class="pb-right">
-      <div class="pb-domain">${w.domain}</div>
-    </div>`;
-  content.appendChild(banner);
-
-  // Domain bar
-  const domBar=document.createElement('div');
-  domBar.className='dom-bar';
-  DOMAINS.forEach(d=>{
-    const seg=document.createElement('div');
-    seg.className='dom-seg'+(ph.domains.includes(d.id)?' on':'');
-    seg.style.cssText=`flex:${d.w};background:${d.c}`;
-    seg.title=`${d.name} (${d.w}%)`;
-    domBar.appendChild(seg);
-  });
-  content.appendChild(domBar);
-
-  // Week stats
-  const stats=document.createElement('div');
-  stats.className='wk-stats';
-  [
-    {v:studyDays,l:'Study Days',c:'var(--blue)'},
-    {v:w.days.reduce((a,d)=>a+d.hours,0)+'h',l:'Total Hours',c:'var(--teal)'},
-    {v:don+'/'+tot,l:'Tasks',c:'var(--green)'},
-    {v:wPct+'%',l:'Week Progress',c:'var(--amber)'},
-    {v:'Wk '+CW+'/11',l:'Overall',c:'var(--violet)'},
-  ].forEach(s=>{
-    stats.innerHTML+=`<div class="wk-stat"><div class="wk-stat-v" style="color:${s.c}">${s.v}</div><div class="wk-stat-l">${s.l}</div></div>`;
-  });
-  content.appendChild(stats);
-
-  // Week overview mini-calendar
-  const wo=document.createElement('div');
-  wo.className='wk-overview';
-  wo.innerHTML='<div class="wo-title">📅 Week at a Glance — click a day to jump to it</div>';
-  const wog=document.createElement('div');
-  wog.className='wo-grid';
-  const weekIdx=CW-1;
-  w.days.forEach((day,di)=>{
-    const {tot,don}=dayProgress(day);
-    const allDone=tot>0&&don===tot;
-    const today=isToday(weekIdx,di);
-    const isOpen=openDay===`${CW}_${di}`;
-    const d=document.createElement('div');
-    d.className='wo-day'+(day.type==='rest'?' wo-rest':'')+(allDone?' wo-done':'')+(today?' wo-today':'')+(isOpen?' wo-open':'');
-    d.innerHTML=`
-      <div class="wo-dow">${DOW[di]}</div>
-      <div class="wo-date">${dateStr(weekIdx,di)}</div>
-      <div class="wo-icon">${day.type==='rest'?'🌿':tot===0?'—':allDone?'✅':'📖'}</div>
-      ${tot>0?`<div class="wo-p"><div class="wo-pf" style="width:${Math.round(don/tot*100)}%"></div></div>`:''}`;
-    if(day.type!=='rest'){
-      d.addEventListener('click',()=>{
-        openDay=openDay===`${CW}_${di}`?null:`${CW}_${di}`;
-        render();
-        setTimeout(()=>{
-          const ep=document.getElementById('ep_'+CW+'_'+di);
-          if(ep) ep.scrollIntoView({behavior:'smooth',block:'nearest'});
-        },50);
-      });
+    // Topbar
+    var tbtitle = document.getElementById('tbtitle');
+    if (tbtitle) {
+      tbtitle.textContent = '';
+      tbtitle.appendChild(document.createTextNode('Week ' + CW + ' '));
+      var sp = el('span', '', w.title);
+      tbtitle.appendChild(sp);
     }
-    wog.appendChild(d);
-  });
-  wo.appendChild(wog);
-  content.appendChild(wo);
+    var tbwnum = document.getElementById('tb-wnum');
+    if (tbwnum) tbwnum.textContent = 'Week ' + CW + ' / 11';
+    var tbphase = document.getElementById('tb-phase');
+    if (tbphase) tbphase.textContent = ph.label;
+    var btnPrev = document.getElementById('btn-prev');
+    var btnNext = document.getElementById('btn-next');
+    if (btnPrev) btnPrev.style.opacity = CW === 1 ? '0.3' : '1';
+    if (btnNext) btnNext.style.opacity = CW === 11 ? '0.3' : '1';
 
-  // Day grid
-  const grid=document.createElement('div');
-  grid.className='day-grid';
-  w.days.forEach((day,di)=>{
-    grid.appendChild(buildDayCard(day,di,weekIdx,CW));
-    // Expanded panel inserted after the last card in grid row
-  });
-  content.appendChild(grid);
+    buildSidebar();
 
-  // Expanded panel (outside grid, below)
-  const epHolder=document.createElement('div');
-  epHolder.id='ep-holder';
-  w.days.forEach((day,di)=>{
-    const ep=buildExpandPanel(day,di,weekIdx,CW);
-    epHolder.appendChild(ep);
-  });
-  content.appendChild(epHolder);
+    var content = document.getElementById('content');
+    if (!content) return;
+    content.innerHTML = '';
+
+    var wt = weekTasks(w);
+    var wPct = wt.tot > 0 ? Math.round(wt.don / wt.tot * 100) : 0;
+    var studyDays = 0;
+    for (var i = 0; i < w.days.length; i++) { if (w.days[i].type !== 'rest') studyDays++; }
+    var totalHours = 0;
+    for (var i = 0; i < w.days.length; i++) { totalHours += w.days[i].hours || 0; }
+
+    // Phase banner
+    var banner = el('div', 'phase-banner');
+    var pbColor = el('div', 'pb-color');
+    pbColor.style.background = ph.color;
+    var pbBody = el('div');
+    var pbSub = el('div', 'pb-sub', ph.label + ' \u2014 ' + ph.name.replace('\u2014','').replace('--','').split(' - ')[0]);
+    pbSub.style.color = ph.color;
+    var pbTitle = el('div', 'pb-title', w.title);
+    var pbDesc = el('div', 'pb-desc', ph.desc);
+    pbBody.appendChild(pbSub);
+    pbBody.appendChild(pbTitle);
+    pbBody.appendChild(pbDesc);
+    var pbRight = el('div', 'pb-right');
+    var pbDom = el('div', 'pb-domain', w.domain);
+    pbRight.appendChild(pbDom);
+    banner.appendChild(pbColor);
+    banner.appendChild(pbBody);
+    banner.appendChild(pbRight);
+    content.appendChild(banner);
+
+    // Domain bar
+    var domBar = el('div', 'dom-bar');
+    for (var i = 0; i < DOMAINS.length; i++) {
+      var d = DOMAINS[i];
+      var seg = el('div', 'dom-seg' + (ph.domains.indexOf(d.id) !== -1 ? ' on' : ''));
+      seg.style.flex = d.w;
+      seg.style.background = d.c;
+      seg.title = d.name + ' (' + d.w + '%)';
+      domBar.appendChild(seg);
+    }
+    content.appendChild(domBar);
+
+    // Week stats
+    var stats = el('div', 'wk-stats');
+    var statItems = [
+      { v: studyDays, l: 'Study Days', c: 'var(--blue)' },
+      { v: totalHours + 'h', l: 'Total Hours', c: 'var(--teal)' },
+      { v: wt.don + '/' + wt.tot, l: 'Tasks', c: 'var(--green)' },
+      { v: wPct + '%', l: 'Progress', c: 'var(--amber)' },
+      { v: 'Wk ' + CW + '/11', l: 'Overall', c: 'var(--violet)' }
+    ];
+    for (var i = 0; i < statItems.length; i++) {
+      var sc = el('div', 'wk-stat');
+      var sv = el('div', 'wk-stat-v', statItems[i].v + '');
+      sv.style.color = statItems[i].c;
+      var sl = el('div', 'wk-stat-l', statItems[i].l);
+      sc.appendChild(sv);
+      sc.appendChild(sl);
+      stats.appendChild(sc);
+    }
+    content.appendChild(stats);
+
+    // Week overview mini-calendar
+    var wo = el('div', 'wk-overview');
+    var woTitle = el('div', 'wo-title', 'Week at a Glance \u2014 tap a day to open it');
+    wo.appendChild(woTitle);
+    var wog = el('div', 'wo-grid');
+    var weekIdx = CW - 1;
+
+    for (var di = 0; di < w.days.length; di++) {
+      (function(day, dayIdx) {
+        var dp = dayProgress(day);
+        var allDone = dp.tot > 0 && dp.don === dp.tot;
+        var today = isToday(weekIdx, dayIdx);
+        var isOpen = openDay === (CW + '_' + dayIdx);
+
+        var cls = 'wo-day';
+        if (day.type === 'rest') cls += ' wo-rest';
+        if (allDone) cls += ' wo-done';
+        if (today) cls += ' wo-today';
+        if (isOpen) cls += ' wo-open';
+
+        var woDay = el('div', cls);
+        var wodow = el('div', 'wo-dow', DOW[dayIdx]);
+        var wodate = el('div', 'wo-date', dateStr(weekIdx, dayIdx));
+        var woicon = el('div', 'wo-icon');
+        if (day.type === 'rest') woicon.textContent = 'Rest';
+        else if (dp.tot === 0) woicon.textContent = '-';
+        else if (allDone) woicon.textContent = 'Done';
+        else woicon.textContent = 'Open';
+
+        woDay.appendChild(wodow);
+        woDay.appendChild(wodate);
+        woDay.appendChild(woicon);
+
+        if (dp.tot > 0) {
+          var wop = el('div', 'wo-p');
+          var wopf = el('div', 'wo-pf');
+          wopf.style.width = Math.round(dp.don / dp.tot * 100) + '%';
+          wop.appendChild(wopf);
+          woDay.appendChild(wop);
+        }
+
+        if (day.type !== 'rest') {
+          woDay.addEventListener('click', function() {
+            openDay = (openDay === (CW + '_' + dayIdx)) ? null : (CW + '_' + dayIdx);
+            render();
+            setTimeout(function() {
+              var ep = document.getElementById('ep_' + CW + '_' + dayIdx);
+              if (ep && ep.classList.contains('open')) {
+                ep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
+            }, 60);
+          });
+        }
+        wog.appendChild(woDay);
+      })(w.days[di], di);
+    }
+
+    wo.appendChild(wog);
+    content.appendChild(wo);
+
+    // Day grid
+    var grid = el('div', 'day-grid');
+    for (var di = 0; di < w.days.length; di++) {
+      grid.appendChild(buildDayCard(w.days[di], di, weekIdx, CW, w));
+    }
+    content.appendChild(grid);
+
+    // Expand panels
+    var epHolder = el('div', '');
+    epHolder.id = 'ep-holder';
+    for (var di = 0; di < w.days.length; di++) {
+      epHolder.appendChild(buildExpandPanel(w.days[di], di, weekIdx, CW, w));
+    }
+    content.appendChild(epHolder);
+
+  } catch(err) {
+    console.error('render error:', err);
+    var c = document.getElementById('content');
+    if (c) {
+      c.innerHTML = '';
+      var errDiv = el('div', '');
+      errDiv.style.cssText = 'color:#f87171;padding:40px;font-family:monospace;font-size:12px;line-height:1.6';
+      errDiv.textContent = 'Render error: ' + err.message;
+      c.appendChild(errDiv);
+    }
+  }
 }
 
 // ─────────────────────────────────────────
 // DAY CARD
 // ─────────────────────────────────────────
-function buildDayCard(day,di,weekIdx,wNum) {
-  const {tot,don}=dayProgress(day);
-  const allDone=tot>0&&don===tot;
-  const today=isToday(weekIdx,di);
-  const isOpen=openDay===`${wNum}_${di}`;
-  const pct=tot>0?Math.round(don/tot*100):0;
+function buildDayCard(day, di, weekIdx, wNum, week) {
+  var dp = dayProgress(day);
+  var allDone = dp.tot > 0 && dp.don === dp.tot;
+  var today = isToday(weekIdx, di);
+  var isOpen = openDay === (wNum + '_' + di);
+  var pct = dp.tot > 0 ? Math.round(dp.don / dp.tot * 100) : 0;
 
-  const card=document.createElement('div');
-  card.className='dc'+(day.type==='rest'?' dc-rest':'')+(allDone?' dc-done':'')+(isOpen?' dc-open':'')+(today?' dc-today':'');
-  if(day.type==='exam') card.classList.add('dc-exam');
+  var cls = 'dc';
+  if (day.type === 'rest') cls += ' dc-rest';
+  if (allDone) cls += ' dc-done';
+  if (isOpen) cls += ' dc-open';
+  if (today) cls += ' dc-today';
 
-  if(day.type==='rest'){
-    card.innerHTML=`
-      <div class="dc-head"><span class="dc-dow">${DOW[di]} · ${dateStr(weekIdx,di)}</span></div>
-      <div class="dc-body">
-        <div class="dc-topic">${day.topic}</div>
-        <div class="dc-hrs">No study</div>
-      </div>`;
-    return card;
+  var card = el('div', cls);
+
+  // Head
+  var head = el('div', 'dc-head');
+  var dowLabel = DOW[di] + ' \u00b7 ' + dateStr(weekIdx, di);
+  if (today) dowLabel += ' \u00b7 TODAY';
+  head.appendChild(el('span', 'dc-dow', dowLabel));
+
+  if (day.type !== 'rest') {
+    var circle = el('div', 'dc-circle', allDone ? '\u2713' : '');
+    if (allDone) circle.classList.add('done-circle');
+    head.appendChild(circle);
+  }
+  card.appendChild(head);
+
+  // Body
+  var body = el('div', 'dc-body');
+  body.appendChild(el('div', 'dc-topic', day.topic));
+
+  if (day.type !== 'rest') {
+    body.appendChild(el('div', 'dc-hrs', day.hours + 'h \u00b7 ' + dp.don + '/' + dp.tot + ' tasks'));
+
+    // Mini tasks
+    var mini = el('div', 'dc-mini');
+    var count = 0;
+    outerLoop:
+    for (var si = 0; si < day.sessions.length; si++) {
+      for (var ti = 0; ti < day.sessions[si].tasks.length; ti++) {
+        if (count >= 3) break outerLoop;
+        var task = day.sessions[si].tasks[ti];
+        var miItem = el('div', 'dc-mi' + (ST[task.id] ? ' done' : ''));
+        miItem.setAttribute('data-tid', task.id);
+        var miBox = el('div', 'dc-mb', ST[task.id] ? '\u2713' : '');
+        var miTxt = el('span', 'dc-mt', task.x.length > 40 ? task.x.slice(0, 40) + '\u2026' : task.x);
+        miItem.appendChild(miBox);
+        miItem.appendChild(miTxt);
+        mini.appendChild(miItem);
+        count++;
+      }
+    }
+    body.appendChild(mini);
+
+    // Progress bar
+    var prog = el('div', 'dc-prog');
+    var progF = el('div', 'dc-prog-f');
+    progF.style.width = pct + '%';
+    prog.appendChild(progF);
+    body.appendChild(prog);
+  } else {
+    body.appendChild(el('div', 'dc-hrs', 'No study'));
   }
 
-  // Mini tasks (first 4 across all sessions)
-  let miniTasks=[];
-  day.sessions.forEach(s=>s.tasks.forEach(t=>{if(miniTasks.length<4)miniTasks.push(t);}));
+  card.appendChild(body);
 
-  card.innerHTML=`
-    <div class="dc-head">
-      <span class="dc-dow">${DOW[di]} · ${dateStr(weekIdx,di)}</span>
-      <div class="dc-circle">${allDone?'✓':''}</div>
-    </div>
-    <div class="dc-body">
-      <div class="dc-topic">${day.topic}</div>
-      <div class="dc-hrs">${day.hours}h · ${don}/${tot} tasks</div>
-      <div class="dc-mini">
-        ${miniTasks.map(t=>`
-          <div class="dc-mi ${ST[t.id]?'done':''}" data-tid="${t.id}">
-            <div class="dc-mb">${ST[t.id]?'✓':''}</div>
-            <span class="dc-mt">${t.x.slice(0,42)}${t.x.length>42?'…':''}</span>
-          </div>`).join('')}
-      </div>
-      <div class="dc-prog"><div class="dc-prog-f" style="width:${pct}%"></div></div>
-    </div>`;
-
-  // Click card body → open expand panel
-  card.addEventListener('click',(e)=>{
-    if(e.target.closest('.dc-circle')){
-      // Mark all / unmark all
-      const done=!allDone;
-      day.sessions.forEach(s=>s.tasks.forEach(t=>{ST[t.id]=done;}));
-      save();render();return;
-    }
-    if(e.target.closest('.dc-mi')){
-      const tid=e.target.closest('.dc-mi').dataset.tid;
-      if(tid){ST[tid]=!ST[tid];save();render();return;}
-    }
-    openDay=openDay===`${wNum}_${di}`?null:`${wNum}_${di}`;
-    render();
-    setTimeout(()=>{
-      const ep=document.getElementById('ep_'+wNum+'_'+di);
-      if(ep&&ep.classList.contains('open')) ep.scrollIntoView({behavior:'smooth',block:'nearest'});
-    },50);
-  });
+  if (day.type !== 'rest') {
+    card.addEventListener('click', (function(d, dayIdx, wk) {
+      return function(e) {
+        var target = e.target;
+        // Check for circle click (mark all)
+        while (target && target !== card) {
+          if (target.classList && target.classList.contains('dc-circle')) {
+            var done = !allDone;
+            for (var si = 0; si < d.sessions.length; si++) {
+              for (var ti = 0; ti < d.sessions[si].tasks.length; ti++) {
+                ST[d.sessions[si].tasks[ti].id] = done;
+              }
+            }
+            save(); render(); return;
+          }
+          // Check for mini task click
+          if (target.classList && target.classList.contains('dc-mi')) {
+            var tid = target.getAttribute('data-tid');
+            if (tid) { ST[tid] = !ST[tid]; save(); render(); return; }
+          }
+          if (target.classList && target.classList.contains('dc-mb')) {
+            var parent = target.parentNode;
+            if (parent) {
+              var tid = parent.getAttribute('data-tid');
+              if (tid) { ST[tid] = !ST[tid]; save(); render(); return; }
+            }
+          }
+          target = target.parentNode;
+        }
+        // Toggle open
+        openDay = (openDay === (wNum + '_' + dayIdx)) ? null : (wNum + '_' + dayIdx);
+        render();
+        setTimeout(function() {
+          var ep = document.getElementById('ep_' + wNum + '_' + dayIdx);
+          if (ep && ep.classList.contains('open')) {
+            ep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 60);
+      };
+    })(day, di, week));
+  }
 
   return card;
 }
 
 // ─────────────────────────────────────────
-// EXPAND PANEL
+// EXPAND PANEL - fully DOM-based, no nested template literals
 // ─────────────────────────────────────────
-function buildExpandPanel(day,di,weekIdx,wNum) {
-  const isOpen=openDay===`${wNum}_${di}`;
-  const {tot,don}=dayProgress(day);
+function buildExpandPanel(day, di, weekIdx, wNum, week) {
+  var isOpen = openDay === (wNum + '_' + di);
+  var dp = dayProgress(day);
 
-  const ep=document.createElement('div');
-  ep.className='ep'+(isOpen?' open':'');
-  ep.id=`ep_${wNum}_${di}`;
+  var ep = el('div', 'ep' + (isOpen ? ' open' : ''));
+  ep.id = 'ep_' + wNum + '_' + di;
 
-  if(!isOpen) return ep;
+  if (!isOpen) return ep;
 
-  ep.innerHTML=`
-    <div class="ep-head">
-      <div class="ep-htxt">
-        <div class="ep-title">${day.topic}</div>
-        <div class="ep-meta">
-          <span class="tb-badge b-bl">${DOW[di]} · ${dateStr(weekIdx,di)}</span>
-          <span class="tb-badge b-gn">${day.hours}h</span>
-          <span class="tb-badge b-am">${don}/${tot} tasks</span>
-        </div>
-      </div>
-      <div class="ep-x" id="epx_${wNum}_${di}">✕</div>
-    </div>
-    <div class="ep-sessions">
-      ${day.sessions.map(s=>`
-        <div class="ep-sess">
-          <div class="ep-sh">
-            <div class="ep-si si-${s.t}">${s.i}</div>
-            <span class="ep-sname">${s.n}</span>
-            <span class="ep-sdur">${s.d}</span>
-          </div>
-          <ul class="ep-tasks">
-            ${s.tasks.map(t=>`
-              <li class="ep-t ${ST[t.id]?'done':''}" data-eptid="${t.id}">
-                <div class="ep-tb">${ST[t.id]?'✓':''}</div>
-                <div>
-                  <span class="ep-txt">${t.x}</span>
-                  <div class="ep-tags">${t.tags.map(g=>`<span class="etag etag-${g}">${g}</span>`).join('')}</div>
-                </div>
-              </li>`).join('')}
-          </ul>
-        </div>`).join('')}
-    </div>
-    ${day.res.length?`
-    <div class="ep-res">
-      <div class="ep-rl">📚 Resources</div>
-      <div class="ep-rg">${day.res.map(r=>`<span class="ep-ri">↗ ${r}</span>`).join('')}</div>
-    </div>`:''}
-    <div class="ep-tip">💡 <strong>Tutor Tip:</strong> ${day.tip}</div>
-    <div class="ep-notes">
-      <div class="ep-nl">📝 Your Notes</div>
-      <textarea class="ep-ta" data-nid="${wNum}_${di}" placeholder="Key takeaways, commands, config snippets…">${ST['notes_'+wNum+'_'+di]||''}</textarea>
+  // Head
+  var head = el('div', 'ep-head');
+  var htxt = el('div', 'ep-htxt');
+  htxt.appendChild(el('div', 'ep-title', day.topic));
 
-```
-</div>`;
-```
+  var meta = el('div', 'ep-meta');
+  var b1 = el('span', 'tb-badge b-bl', DOW[di] + ' \u00b7 ' + dateStr(weekIdx, di));
+  var b2 = el('span', 'tb-badge b-gn', day.hours + 'h');
+  var b3 = el('span', 'tb-badge b-am', dp.don + '/' + dp.tot + ' tasks');
+  meta.appendChild(b1); meta.appendChild(b2); meta.appendChild(b3);
+  htxt.appendChild(meta);
 
-// Close button
-ep.querySelector(`#epx_${wNum}_${di}`).addEventListener(‘click’,()=>{
-openDay=null;render();
-});
+  var closeBtn = el('div', 'ep-x', '\u2715');
+  closeBtn.addEventListener('click', function() { openDay = null; render(); });
 
-// Task checkboxes
-ep.querySelectorAll(’.ep-t’).forEach(el=>{
-el.addEventListener(‘click’,()=>{
-const id=el.dataset.eptid;
-ST[id]=!ST[id];
-save();render();
-});
-});
+  head.appendChild(htxt);
+  head.appendChild(closeBtn);
+  ep.appendChild(head);
 
-// Notes
-ep.querySelector(’.ep-ta’).addEventListener(‘input’,e=>{
-ST[‘notes_’+wNum+’_’+di]=e.target.value;
-save();
-});
+  // Sessions
+  if (day.sessions.length > 0) {
+    var sessGrid = el('div', 'ep-sessions');
 
-return ep;
+    for (var si = 0; si < day.sessions.length; si++) {
+      (function(sess) {
+        var sessEl = el('div', 'ep-sess');
+
+        // Session header
+        var sh = el('div', 'ep-sh');
+        var icon = el('div', 'ep-si si-' + sess.t, sess.i);
+        var sname = el('span', 'ep-sname', sess.n);
+        var sdur = el('span', 'ep-sdur', sess.d);
+        sh.appendChild(icon); sh.appendChild(sname); sh.appendChild(sdur);
+        sessEl.appendChild(sh);
+
+        // Tasks
+        var taskList = el('ul', 'ep-tasks');
+        for (var ti = 0; ti < sess.tasks.length; ti++) {
+          (function(task) {
+            var isDone = !!ST[task.id];
+            var li = el('li', 'ep-t' + (isDone ? ' done' : ''));
+            li.setAttribute('data-eptid', task.id);
+
+            var tb = el('div', 'ep-tb', isDone ? '\u2713' : '');
+            var txtwrap = el('div', '');
+            var txt = el('span', 'ep-txt', task.x);
+            txtwrap.appendChild(txt);
+
+            // Tags
+            if (task.tags && task.tags.length > 0) {
+              var tagsDiv = el('div', 'ep-tags');
+              for (var gi = 0; gi < task.tags.length; gi++) {
+                tagsDiv.appendChild(el('span', 'etag etag-' + task.tags[gi], task.tags[gi]));
+              }
+              txtwrap.appendChild(tagsDiv);
+            }
+
+            li.appendChild(tb);
+            li.appendChild(txtwrap);
+
+            li.addEventListener('click', function() {
+              ST[task.id] = !ST[task.id];
+              save(); render();
+            });
+
+            taskList.appendChild(li);
+          })(sess.tasks[ti]);
+        }
+        sessEl.appendChild(taskList);
+        sessGrid.appendChild(sessEl);
+      })(day.sessions[si]);
+    }
+    ep.appendChild(sessGrid);
+  }
+
+  // Resources
+  if (day.res && day.res.length > 0) {
+    var resSection = el('div', 'ep-res');
+    resSection.appendChild(el('div', 'ep-rl', 'Resources'));
+    var rg = el('div', 'ep-rg');
+    for (var ri = 0; ri < day.res.length; ri++) {
+      var rItem = el('span', 'ep-ri', '\u2197 ' + day.res[ri]);
+      rg.appendChild(rItem);
+    }
+    resSection.appendChild(rg);
+    ep.appendChild(resSection);
+  }
+
+  // Tutor tip
+  if (day.tip) {
+    var tipDiv = el('div', 'ep-tip');
+    tipDiv.innerHTML = '<strong>Tutor Tip:</strong> ' + day.tip;
+    ep.appendChild(tipDiv);
+  }
+
+  // Notes
+  var notesDiv = el('div', 'ep-notes');
+  notesDiv.appendChild(el('div', 'ep-nl', 'Your Notes'));
+  var ta = document.createElement('textarea');
+  ta.className = 'ep-ta';
+  ta.placeholder = 'Key takeaways, commands, config snippets...';
+  ta.value = ST['notes_' + wNum + '_' + di] || '';
+  ta.addEventListener('input', (function(w, d) {
+    return function(e) {
+      ST['notes_' + w + '_' + d] = e.target.value;
+      save();
+    };
+  })(wNum, di));
+  notesDiv.appendChild(ta);
+  ep.appendChild(notesDiv);
+
+  return ep;
 }
 
 // ─────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────
 function detectCurrentWeek() {
-try {
-const today = new Date();
-today.setHours(0,0,0,0);
-for (let i = 0; i < WEEK_STARTS.length; i++) {
-const s = new Date(WEEK_STARTS[i]);
-s.setHours(0,0,0,0);
-const e = new Date(s);
-e.setDate(e.getDate() + 6);
-e.setHours(23,59,59,999);
-if (today >= s && today <= e) return i + 1;
-}
-// Before plan start → week 1
-const planStart = new Date(WEEK_STARTS[0]);
-if (today < planStart) return 1;
-// After plan end → week 11
-return 11;
-} catch(err) {
-return 1;
-}
+  try {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    for (var i = 0; i < WEEK_STARTS.length; i++) {
+      var s = new Date(WEEK_STARTS[i]);
+      s.setHours(0, 0, 0, 0);
+      var e = new Date(WEEK_STARTS[i]);
+      e.setDate(e.getDate() + 6);
+      e.setHours(23, 59, 59, 999);
+      if (today >= s && today <= e) return i + 1;
+    }
+    var planStart = new Date(WEEK_STARTS[0]);
+    planStart.setHours(0, 0, 0, 0);
+    if (today < planStart) return 1;
+    return 11;
+  } catch(err) { return 1; }
 }
 
 function init() {
-try { load(); } catch(e) {}
-CW = detectCurrentWeek();
-updateCountdown();
-setInterval(updateCountdown, 60000);
+  try { load(); } catch(e) {}
+  CW = detectCurrentWeek();
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
 
-document.getElementById(‘btn-prev’).addEventListener(‘click’, function() {
-if (CW > 1) { CW–; openDay = null; render(); }
-});
-document.getElementById(‘btn-next’).addEventListener(‘click’, function() {
-if (CW < 11) { CW++; openDay = null; render(); }
-});
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
 
-try { render(); } catch(err) {
-console.error(‘render error:’, err);
-// Fallback: show error in content area so it’s visible
-const c = document.getElementById(‘content’);
-if (c) c.innerHTML = ’<div style="color:#f87171;padding:40px;font-family:monospace">Render error: ’ + err.message + ‘<br><br>Please report this.</div>’;
+  if (btnPrev) {
+    btnPrev.addEventListener('click', function() {
+      if (CW > 1) { CW--; openDay = null; render(); }
+    });
+  }
+  if (btnNext) {
+    btnNext.addEventListener('click', function() {
+      if (CW < 11) { CW++; openDay = null; render(); }
+    });
+  }
+
+  render();
 }
-}
 
-if (document.readyState === ‘loading’) {
-document.addEventListener(‘DOMContentLoaded’, init);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
 } else {
-init();
+  init();
 }
+
 </script>
 
 </body>
